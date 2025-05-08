@@ -1,0 +1,190 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/ */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  /* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+  [role="list"] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-block-size: 100vh;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  img,
+  picture {
+    max-inline-size: 100%;
+    display: block;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+@layer variables {
+  :root {
+    /* COLORS */
+    --primary-100: #d4eaf7;
+    --magic-mint-50: #fffefb;
+    --magic-mint-100: #d4f7e4;
+    --magic-mint-200: #9feac6;
+    --magic-mint-300: #77deb3;
+    --magic-mint-400: #40c793;
+    --magic-mint-500: #1dac7a;
+    --magic-mint-600: #108b63;
+    --magic-mint-700: #0d6f51;
+    --magic-mint-800: #0d5842;
+    --magic-mint-900: #0c4837;
+    --magic-mint-950: #05291f;
+    /* FONTS */
+    --font-family: "Inter", sans-serif;
+    --font-size: 16px;
+  }
+}
+@layer layout {
+  .content {
+    margin: 0 120px;
+  }
+  .hero {
+    background-color: var(--magic-mint-200);
+  }
+  .stats {
+    background-color: var(--magic-mint-50);
+  }
+  .volunteer {
+    background-color: var(--magic-mint-300);
+  }
+  .join {
+    background-color: var(--magic-mint-50);
+  }
+  .footer {
+    background-color: var(--magic-mint-400);
+  }
+  .footer-bottom {
+    background-color: var(--magic-mint-500);
+  }
+
+  .header {
+    position: relative;
+    display: flex;
+    gap: 1100px;
+    padding: 20px;
+    margin: 0px 80px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+      h1 {
+        white-space: nowrap;
+        padding: 0;
+      }
+    }
+  }
+  .curve {
+    position: absolute;
+    width: 362px;
+  }
+  .hero-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+
+    .hero-main-text {
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+      width: 344px;
+      .inner-options {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        button {
+          background-color: var(--magic-mint-400);
+          border: none;
+          border-radius: 2px;
+          color: var(--magic-mint-50);
+        }
+        p {
+          background-color: var(--primary-100);
+          padding: 5px;
+          border: 1px solid var(--magic-mint-400);
+        }
+      }
+    }
+  }
+}
+@layer sizing {
+  .header {
+    img,
+    h1 {
+      max-width: 23px;
+      color: var(--primary-100);
+    }
+  }
+  .hero-main {
+    img {
+      max-width: 300px;
+      height: 300px;
+      height: auto;
+      background-color: transparent;
+    }
+  }
+  .hero-main-text {
+    h1 {
+      font-size: 27px;
+      font-family: var(--font-family);
+    }
+  }
+}
