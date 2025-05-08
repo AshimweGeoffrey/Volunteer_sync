@@ -1,0 +1,113 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|c:\\users\\hp\\source\\repos\\volunteersyncapi\\volunteersyncapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|solutionrelative:volunteersyncapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|c:\\users\\hp\\source\\repos\\volunteersyncapi\\volunteersyncapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|solutionrelative:volunteersyncapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|c:\\users\\hp\\source\\repos\\volunteersyncapi\\volunteersyncapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|solutionrelative:volunteersyncapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|c:\\users\\hp\\source\\repos\\volunteersyncapi\\volunteersyncapi\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|solutionrelative:volunteersyncapi\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|c:\\users\\hp\\source\\repos\\volunteersyncapi\\volunteersyncapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEC9D6BA-858D-4160-9B34-FC42F6439049}|VolunteerSyncAPI\\VolunteerSyncAPI.csproj|solutionrelative:volunteersyncapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "VolunteerSyncAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "VolunteerSyncAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAwwAwAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-08T12:44:42.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "VolunteerSyncAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\appsettings.json",
+              "RelativeToolTip": "VolunteerSyncAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-08T12:40:29.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Program.cs",
+              "RelativeDocumentMoniker": "VolunteerSyncAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Program.cs",
+              "RelativeToolTip": "VolunteerSyncAPI\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-08T12:29:21.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "VolunteerSyncAPI\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\AppDbContext.cs",
+              "RelativeToolTip": "VolunteerSyncAPI\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-08T12:25:27.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Models\\User.cs",
+              "RelativeDocumentMoniker": "VolunteerSyncAPI\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\VolunteerSyncAPI\\VolunteerSyncAPI\\Models\\User.cs",
+              "RelativeToolTip": "VolunteerSyncAPI\\Models\\User.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwAoAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-08T12:18:24.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
