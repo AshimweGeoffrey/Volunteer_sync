@@ -1,12 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MongoDB.Driver;
 using VolunteerSyncAPI.Models;
 
 namespace VolunteerSyncAPI.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        private readonly IMongoDatabase _database;
 
-        public DbSet<User> Users { get; set; }
+        public AppDbContext(IMongoClient mongoClient, string databaseName)
+        {
+            _database = mongoClient.GetDatabase(databaseName);
+        }
+
+        // MongoDB collections
+        public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
+
+        // Add more collections for other models as needed
     }
 }
