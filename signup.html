@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authentication SignUp</title>
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <div class="logo">
+          <img src="assets/logo-black.svg" alt="logo" class="logo" />
+          <h1>VolunteerSync</h1>
+        </div>
+        <div class="left-message">
+          <h1>
+            “Volunteering is at the very core of being a human. No one has made
+            it through life without someone else’s help.”
+          </h1>
+          <h6>- Heather French Henry</h6>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="form-container">
+          <div class="form-header">
+            <h1>Create an account</h1>
+            <p>
+              By creating an account you agree to our terms of service and
+              privacy policy
+            </p>
+          </div>
+          <div class="form-fields">
+            <div class="name-fields">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <div class="input-field">
+                  <input type="text" id="firstName" value="harry" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <div class="input-field">
+                  <input type="text" id="lastName" value="potter" />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <div class="input-field">
+                <input type="email" id="email" value="harry@potter.com" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <div class="input-field">
+                <input type="text" id="username" value="harry_potter" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="location">Location</label>
+              <div class="input-field location-field">
+                <input type="text" id="location" value="Kigali Rwanda" />
+                <div class="dropdown-arrow"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-field">
+                <input type="password" id="password" value="**************" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="repeatPassword">Repeat password</label>
+              <div class="input-field">
+                <input
+                  type="password"
+                  id="repeatPassword"
+                  value="**************"
+                />
+              </div>
+            </div>
+            <button class="signup-btn">Sign up</button>
+          </div>
+          <div class="login-link">
+            Already have an account? <a href="#">Login.</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
