@@ -158,17 +158,20 @@
     color: #3b3c3d;
   }
   .form-header {
+    display: flex;
+    flex-direction: column;
     color: #3b3c3d;
+    padding: 15px 0px;
   }
   input,
   textarea,
   select {
-    padding: 2px;
+    padding: 8px;
     border-radius: 4px;
     color: #3b3c3d;
     border: 1px solid #9e9e9e;
     width: 100%;
-    font-size: var(--font-size);
+    font-size: 12px;
   }
   button {
     background-color: var(--magic-mint-500);
@@ -197,5 +200,20 @@
     a:hover {
       text-decoration: underline;
     }
+  }
+}
+@layer components {
+  .sizing-component {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+  .success-message {
+    color: green;
+    font-size: 12px;
   }
 }
