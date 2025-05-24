@@ -787,11 +787,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
+      "projectUniqueName": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
       "projectName": "VolunteerSync.Domain",
-      "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
+      "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
       "packagesPath": "/home/micro/.nuget/packages/",
-      "outputPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/",
+      "outputPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/micro/.nuget/NuGet/NuGet.Config"

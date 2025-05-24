@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {}
+    "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {}
   },
   "projects": {
-    "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {
+    "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
+        "projectUniqueName": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
         "projectName": "VolunteerSync.Application",
-        "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
+        "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
         "packagesPath": "/home/micro/.nuget/packages/",
-        "outputPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/obj/",
+        "outputPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/micro/.nuget/NuGet/NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
-                "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
+              "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
+                "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
               },
-              "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
-                "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
+              "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
+                "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
               }
             }
           }
@@ -87,14 +87,14 @@
         }
       }
     },
-    "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
+    "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
+        "projectUniqueName": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
         "projectName": "VolunteerSync.Domain",
-        "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
+        "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj",
         "packagesPath": "/home/micro/.nuget/packages/",
-        "outputPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/",
+        "outputPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/micro/.nuget/NuGet/NuGet.Config"
@@ -155,14 +155,14 @@
         }
       }
     },
-    "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
+    "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
+        "projectUniqueName": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
         "projectName": "VolunteerSync.Infrastructure",
-        "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
+        "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
         "packagesPath": "/home/micro/.nuget/packages/",
-        "outputPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/obj/",
+        "outputPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/micro/.nuget/NuGet/NuGet.Config"
@@ -177,8 +177,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
-                "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
+              "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
+                "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
               }
             }
           }

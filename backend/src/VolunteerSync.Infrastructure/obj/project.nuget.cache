@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jvUJ9sLy6co=",
+  "dgSpecHash": "+cQa6Gol7+Q=",
   "success": true,
-  "projectFilePath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
+  "projectFilePath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj",
   "expectedPackageFiles": [
     "/home/micro/.nuget/packages/awssdk.core/3.7.100.14/awssdk.core.3.7.100.14.nupkg.sha512",
     "/home/micro/.nuget/packages/awssdk.securitytoken/3.7.100.14/awssdk.securitytoken.3.7.100.14.nupkg.sha512",

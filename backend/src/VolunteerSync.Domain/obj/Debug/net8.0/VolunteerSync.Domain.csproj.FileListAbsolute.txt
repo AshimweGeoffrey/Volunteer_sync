@@ -11,3 +11,16 @@
 /home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/refint/VolunteerSync.Domain.dll
 /home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.pdb
 /home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/ref/VolunteerSync.Domain.dll
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/bin/Debug/net8.0/VolunteerSync.Domain.deps.json
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/bin/Debug/net8.0/VolunteerSync.Domain.dll
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/bin/Debug/net8.0/VolunteerSync.Domain.pdb
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.csproj.AssemblyReference.cache
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.AssemblyInfoInputs.cache
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.AssemblyInfo.cs
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.csproj.CoreCompileInputs.cache
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.sourcelink.json
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.dll
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/refint/VolunteerSync.Domain.dll
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.pdb
+/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/obj/Debug/net8.0/ref/VolunteerSync.Domain.dll

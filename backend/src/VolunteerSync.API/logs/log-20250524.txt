@@ -477,3 +477,38 @@ System.FormatException: Element 'requiredSkills' does not match any field or pro
 2025-05-24 18:02:57.094 +02:00 [INF] Executed endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
 2025-05-24 18:02:57.094 +02:00 [INF] Completed request: GET /api/organizations - Status: 200 - Duration: 12.6007ms
 2025-05-24 18:02:57.098 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/organizations - 200 null application/json; charset=utf-8 17.4315ms
+2025-05-24 18:12:25.800 +02:00 [INF] Application is shutting down...
+2025-05-24 18:14:07.054 +02:00 [INF] Starting VolunteerSync API
+2025-05-24 18:14:07.197 +02:00 [INF] User profile is available. Using '/home/micro/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-05-24 18:14:07.339 +02:00 [INF] Now listening on: http://localhost:5000
+2025-05-24 18:14:07.347 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-24 18:14:07.348 +02:00 [INF] Hosting environment: Production
+2025-05-24 18:14:07.348 +02:00 [INF] Content root path: /home/micro/Volunteer_sync/backend/src/VolunteerSync.API
+2025-05-24 18:14:14.032 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/organizations - null null
+2025-05-24 18:14:14.195 +02:00 [WRN] Failed to determine the https port for redirect.
+2025-05-24 18:14:14.297 +02:00 [INF] Incoming request: GET /api/organizations from ::1
+2025-05-24 18:14:14.456 +02:00 [INF] Executing endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:14.529 +02:00 [INF] Route matched with {action = "GetAllOrganizations", controller = "Organizations"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllOrganizations(Int32, Int32) on controller VolunteerSync.API.Controllers.OrganizationsController (VolunteerSync.API).
+2025-05-24 18:14:15.822 +02:00 [INF] Executing OkObjectResult, writing value of type 'VolunteerSync.Application.DTOs.Common.ApiResponseDto`1[[VolunteerSync.Application.DTOs.Common.PagedResultDto`1[[VolunteerSync.Application.DTOs.Organizations.OrganizationDto, VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-24 18:14:16.138 +02:00 [INF] Executed action VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API) in 1601.6345ms
+2025-05-24 18:14:16.144 +02:00 [INF] Executed endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:16.148 +02:00 [INF] Completed request: GET /api/organizations - Status: 200 - Duration: 1919.3263ms
+2025-05-24 18:14:16.157 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/organizations - 200 null application/json; charset=utf-8 2126.1295ms
+2025-05-24 18:14:24.975 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/organizations - null null
+2025-05-24 18:14:24.978 +02:00 [INF] Incoming request: GET /api/organizations from ::1
+2025-05-24 18:14:24.987 +02:00 [INF] Executing endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:24.988 +02:00 [INF] Route matched with {action = "GetAllOrganizations", controller = "Organizations"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllOrganizations(Int32, Int32) on controller VolunteerSync.API.Controllers.OrganizationsController (VolunteerSync.API).
+2025-05-24 18:14:25.039 +02:00 [INF] Executing OkObjectResult, writing value of type 'VolunteerSync.Application.DTOs.Common.ApiResponseDto`1[[VolunteerSync.Application.DTOs.Common.PagedResultDto`1[[VolunteerSync.Application.DTOs.Organizations.OrganizationDto, VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-24 18:14:25.053 +02:00 [INF] Executed action VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API) in 61.5439ms
+2025-05-24 18:14:25.053 +02:00 [INF] Executed endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:25.054 +02:00 [INF] Completed request: GET /api/organizations - Status: 200 - Duration: 76.2985ms
+2025-05-24 18:14:25.055 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/organizations - 200 null application/json; charset=utf-8 79.9757ms
+2025-05-24 18:14:35.904 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/organizations - null null
+2025-05-24 18:14:35.905 +02:00 [INF] Incoming request: GET /api/organizations from ::1
+2025-05-24 18:14:35.912 +02:00 [INF] Executing endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:35.912 +02:00 [INF] Route matched with {action = "GetAllOrganizations", controller = "Organizations"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllOrganizations(Int32, Int32) on controller VolunteerSync.API.Controllers.OrganizationsController (VolunteerSync.API).
+2025-05-24 18:14:35.936 +02:00 [INF] Executing OkObjectResult, writing value of type 'VolunteerSync.Application.DTOs.Common.ApiResponseDto`1[[VolunteerSync.Application.DTOs.Common.PagedResultDto`1[[VolunteerSync.Application.DTOs.Organizations.OrganizationDto, VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], VolunteerSync.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-24 18:14:35.939 +02:00 [INF] Executed action VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API) in 25.6617ms
+2025-05-24 18:14:35.940 +02:00 [INF] Executed endpoint 'VolunteerSync.API.Controllers.OrganizationsController.GetAllOrganizations (VolunteerSync.API)'
+2025-05-24 18:14:35.940 +02:00 [INF] Completed request: GET /api/organizations - Status: 200 - Duration: 34.9025ms
+2025-05-24 18:14:35.943 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/api/organizations - 200 null application/json; charset=utf-8 38.7137ms

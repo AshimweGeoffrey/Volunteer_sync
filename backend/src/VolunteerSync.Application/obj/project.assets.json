@@ -1564,11 +1564,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
+      "projectUniqueName": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
       "projectName": "VolunteerSync.Application",
-      "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
+      "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj",
       "packagesPath": "/home/micro/.nuget/packages/",
-      "outputPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/obj/",
+      "outputPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/micro/.nuget/NuGet/NuGet.Config"
@@ -1583,11 +1583,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
             },
-            "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
             }
           }
         }

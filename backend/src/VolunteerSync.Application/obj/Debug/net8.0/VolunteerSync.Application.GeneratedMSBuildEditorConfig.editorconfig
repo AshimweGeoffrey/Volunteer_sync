@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = VolunteerSync.Application
-build_property.ProjectDir = /home/micro/Volunteer_sync/src/VolunteerSync.Application/
+build_property.ProjectDir = /home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
