@@ -36,28 +36,28 @@ public class ExceptionHandlingMiddleware
         {
             NotFoundException => new ApiResponseDto<object>
             {
-                Success = false,
+                IsSuccess = false,
                 Message = exception.Message,
                 Data = null,
                 Errors = new List<string> { exception.Message }
             },
             ValidationException validationEx => new ApiResponseDto<object>
             {
-                Success = false,
+                IsSuccess = false,
                 Message = "Validation failed",
                 Data = null,
                 Errors = validationEx.Errors.ToList()
             },
             UnauthorizedException => new ApiResponseDto<object>
             {
-                Success = false,
+                IsSuccess = false,
                 Message = "Unauthorized access",
                 Data = null,
                 Errors = new List<string> { exception.Message }
             },
             _ => new ApiResponseDto<object>
             {
-                Success = false,
+                IsSuccess = false,
                 Message = "An error occurred while processing your request",
                 Data = null,
                 Errors = new List<string> { "Internal server error" }

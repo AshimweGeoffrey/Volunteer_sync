@@ -7,6 +7,7 @@ using VolunteerSync.Application.Services.Interfaces;
 using VolunteerSync.Domain.Entities;
 using VolunteerSync.Domain.Enums;
 using VolunteerSync.Domain.Interfaces.Repositories;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.Application.Services.Implementations;
 
@@ -72,8 +73,7 @@ public class VolunteerTaskService : IVolunteerTaskService
                 Items = taskDtos,
                 TotalCount = tasks.Count(),
                 Page = page,
-                PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(tasks.Count() / (double)pageSize)
+                PageSize = pageSize
             };
 
             return ApiResponseDto<PagedResultDto<VolunteerTaskDto>>.Success(result);
@@ -112,7 +112,7 @@ public class VolunteerTaskService : IVolunteerTaskService
             }
 
             var task = _mapper.Map<VolunteerTask>(createTaskDto);
-            task.CreatedBy = userId;
+            task.CreatedById = userId;
             task.CreatedAt = DateTime.UtcNow;
             task.Status = TaskStatus.Active;
 
@@ -142,8 +142,8 @@ public class VolunteerTaskService : IVolunteerTaskService
             _mapper.Map(updateTaskDto, existingTask);
             existingTask.UpdatedAt = DateTime.UtcNow;
 
-            var updatedTask = await _taskRepository.UpdateAsync(existingTask);
-            var taskDto = _mapper.Map<VolunteerTaskDto>(updatedTask);
+            await _taskRepository.UpdateAsync(existingTask);
+            var taskDto = _mapper.Map<VolunteerTaskDto>(existingTask);
 
             _logger.LogInformation("Task updated successfully: {TaskId}", id);
             return ApiResponseDto<VolunteerTaskDto>.Success(taskDto);
@@ -181,7 +181,7 @@ public class VolunteerTaskService : IVolunteerTaskService
     {
         try
         {
-            var tasks = await _taskRepository.SearchByTermAsync(searchTerm);
+            var tasks = await _taskRepository.SearchTasksAsync(searchTerm, page, pageSize);
             var pagedTasks = tasks
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -194,8 +194,7 @@ public class VolunteerTaskService : IVolunteerTaskService
                 Items = taskDtos,
                 TotalCount = tasks.Count(),
                 Page = page,
-                PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(tasks.Count() / (double)pageSize)
+                PageSize = pageSize
             };
 
             return ApiResponseDto<PagedResultDto<VolunteerTaskDto>>.Success(result);
@@ -227,7 +226,7 @@ public class VolunteerTaskService : IVolunteerTaskService
     {
         try
         {
-            var tasks = await _taskRepository.GetByCreatedByAsync(userId);
+            var tasks = await _taskRepository.GetByCreatedByIdAsync(userId);
             var taskDtos = _mapper.Map<IEnumerable<VolunteerTaskDto>>(tasks);
 
             return ApiResponseDto<IEnumerable<VolunteerTaskDto>>.Success(taskDtos);
@@ -259,7 +258,7 @@ public class VolunteerTaskService : IVolunteerTaskService
     {
         try
         {
-            var tasks = await _taskRepository.GetFeaturedAsync();
+            var tasks = await _taskRepository.GetFeaturedTasksAsync();
             var taskDtos = _mapper.Map<IEnumerable<VolunteerTaskDto>>(tasks);
 
             return ApiResponseDto<IEnumerable<VolunteerTaskDto>>.Success(taskDtos);
@@ -290,7 +289,7 @@ public class VolunteerTaskService : IVolunteerTaskService
             }
 
             // Check if already registered
-            var existingRegistration = await _registrationRepository.GetByTaskAndUserAsync(taskId, userId);
+            var existingRegistration = await _registrationRepository.GetByUserAndTaskAsync(userId, taskId);
             if (existingRegistration != null)
             {
                 return ApiResponseDto<bool>.Failure("Already registered for this task", 400);
@@ -310,7 +309,7 @@ public class VolunteerTaskService : IVolunteerTaskService
             // Create registration
             var registration = new TaskRegistration
             {
-                TaskId = taskId,
+                VolunteerTaskId = taskId,
                 UserId = userId,
                 ApplicationMessage = applicationMessage,
                 RegistrationDate = DateTime.UtcNow,
@@ -333,15 +332,15 @@ public class VolunteerTaskService : IVolunteerTaskService
     {
         try
         {
-            var registration = await _registrationRepository.GetByTaskAndUserAsync(taskId, userId);
+            var registration = await _registrationRepository.GetByUserAndTaskAsync(userId, taskId);
             if (registration == null)
             {
                 return ApiResponseDto<bool>.Failure("Registration not found", 404);
             }
 
-            if (registration.Status == RegistrationStatus.Confirmed)
+            if (registration.Status == RegistrationStatus.Approved)
             {
-                return ApiResponseDto<bool>.Failure("Cannot unregister from confirmed task", 400);
+                return ApiResponseDto<bool>.Failure("Cannot unregister from approved task", 400);
             }
 
             await _registrationRepository.DeleteAsync(registration.Id);

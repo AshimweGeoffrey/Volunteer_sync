@@ -26,7 +26,9 @@ public class MappingProfile : Profile
         CreateMap<CreateVolunteerTaskDto, VolunteerTask>();
 
         // TaskRegistration mappings
-        CreateMap<TaskRegistration, TaskRegistrationDto>();
-        CreateMap<CreateTaskRegistrationDto, TaskRegistration>();
+        CreateMap<TaskRegistration, TaskRegistrationDto>()
+            .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.VolunteerTaskId));
+        CreateMap<CreateTaskRegistrationDto, TaskRegistration>()
+            .ForMember(dest => dest.VolunteerTaskId, opt => opt.MapFrom(src => src.TaskId));
     }
 }

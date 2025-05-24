@@ -3,6 +3,7 @@ using VolunteerSync.Domain.Entities;
 using VolunteerSync.Domain.Enums;
 using VolunteerSync.Domain.Interfaces.Repositories;
 using VolunteerSync.Domain.Interfaces.Services;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.Infrastructure.Repositories;
 

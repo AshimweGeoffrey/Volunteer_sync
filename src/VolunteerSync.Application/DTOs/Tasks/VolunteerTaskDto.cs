@@ -1,5 +1,6 @@
 using VolunteerSync.Domain.Enums;
 using VolunteerSync.Domain.ValueObjects;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.Application.DTOs.Tasks;
 

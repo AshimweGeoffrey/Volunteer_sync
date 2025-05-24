@@ -36,7 +36,7 @@ public class UserService : IUserService
             }
 
             var userDto = _mapper.Map<UserDto>(user);
-            return ApiResponseDto<UserDto>.SuccessResponse(userDto);
+            return ApiResponseDto<UserDto>.Success(userDto);
         }
         catch (Exception ex)
         {
@@ -55,7 +55,7 @@ public class UserService : IUserService
             }
 
             var userDto = _mapper.Map<UserDto>(user);
-            return ApiResponseDto<UserDto>.SuccessResponse(userDto);
+            return ApiResponseDto<UserDto>.Success(userDto);
         }
         catch (Exception ex)
         {
@@ -81,7 +81,7 @@ public class UserService : IUserService
                 PageSize = pageSize
             };
 
-            return ApiResponseDto<PagedResultDto<UserDto>>.SuccessResponse(pagedResult);
+            return ApiResponseDto<PagedResultDto<UserDto>>.Success(pagedResult);
         }
         catch (Exception ex)
         {
@@ -107,7 +107,7 @@ public class UserService : IUserService
             await _userRepository.CreateAsync(user);
 
             var userDto = _mapper.Map<UserDto>(user);
-            return ApiResponseDto<UserDto>.SuccessResponse(userDto, "User created successfully");
+            return ApiResponseDto<UserDto>.Success(userDto, "User created successfully");
         }
         catch (Exception ex)
         {
@@ -142,7 +142,7 @@ public class UserService : IUserService
             await _userRepository.UpdateAsync(existingUser);
 
             var userDto = _mapper.Map<UserDto>(existingUser);
-            return ApiResponseDto<UserDto>.SuccessResponse(userDto, "User updated successfully");
+            return ApiResponseDto<UserDto>.Success(userDto, "User updated successfully");
         }
         catch (Exception ex)
         {
@@ -161,7 +161,7 @@ public class UserService : IUserService
             }
 
             await _userRepository.DeleteAsync(id);
-            return ApiResponseDto<bool>.SuccessResponse(true, "User deleted successfully");
+            return ApiResponseDto<bool>.Success(true, "User deleted successfully");
         }
         catch (Exception ex)
         {
@@ -186,7 +186,7 @@ public class UserService : IUserService
                 PageSize = pageSize
             };
 
-            return ApiResponseDto<PagedResultDto<UserDto>>.SuccessResponse(pagedResult);
+            return ApiResponseDto<PagedResultDto<UserDto>>.Success(pagedResult);
         }
         catch (Exception ex)
         {
@@ -200,7 +200,7 @@ public class UserService : IUserService
         {
             var users = await _userRepository.GetByOrganizationIdAsync(organizationId);
             var userDtos = _mapper.Map<IEnumerable<UserDto>>(users);
-            return ApiResponseDto<IEnumerable<UserDto>>.SuccessResponse(userDtos);
+            return ApiResponseDto<IEnumerable<UserDto>>.Success(userDtos);
         }
         catch (Exception ex)
         {

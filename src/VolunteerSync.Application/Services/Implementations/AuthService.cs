@@ -65,7 +65,7 @@ public class AuthService : IAuthService
                 Role = user.Role.ToString()
             };
 
-            return ApiResponseDto<TokenResponseDto>.SuccessResponse(tokenResponse, "Login successful");
+            return ApiResponseDto<TokenResponseDto>.Success(tokenResponse, "Login successful");
         }
         catch (Exception ex)
         {
@@ -104,7 +104,7 @@ public class AuthService : IAuthService
                 Role = user.Role.ToString()
             };
 
-            return ApiResponseDto<TokenResponseDto>.SuccessResponse(tokenResponse, "Registration successful");
+            return ApiResponseDto<TokenResponseDto>.Success(tokenResponse, "Registration successful");
         }
         catch (Exception ex)
         {
@@ -132,7 +132,7 @@ public class AuthService : IAuthService
         {
             // In a real implementation, you would invalidate the refresh token
             // For now, we'll just return success
-            return ApiResponseDto<bool>.SuccessResponse(true, "Logout successful");
+            return ApiResponseDto<bool>.Success(true, "Logout successful");
         }
         catch (Exception ex)
         {

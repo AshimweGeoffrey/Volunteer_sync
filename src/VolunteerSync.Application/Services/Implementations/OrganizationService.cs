@@ -30,7 +30,7 @@ public class OrganizationService : IOrganizationService
             }
 
             var organizationDto = _mapper.Map<OrganizationDto>(organization);
-            return ApiResponseDto<OrganizationDto>.SuccessResponse(organizationDto);
+            return ApiResponseDto<OrganizationDto>.Success(organizationDto);
         }
         catch (Exception ex)
         {
@@ -56,7 +56,7 @@ public class OrganizationService : IOrganizationService
                 PageSize = pageSize
             };
 
-            return ApiResponseDto<PagedResultDto<OrganizationDto>>.SuccessResponse(pagedResult);
+            return ApiResponseDto<PagedResultDto<OrganizationDto>>.Success(pagedResult);
         }
         catch (Exception ex)
         {
@@ -77,7 +77,7 @@ public class OrganizationService : IOrganizationService
             await _organizationRepository.CreateAsync(organization);
 
             var organizationDto = _mapper.Map<OrganizationDto>(organization);
-            return ApiResponseDto<OrganizationDto>.SuccessResponse(organizationDto, "Organization created successfully");
+            return ApiResponseDto<OrganizationDto>.Success(organizationDto, "Organization created successfully");
         }
         catch (Exception ex)
         {
@@ -99,7 +99,7 @@ public class OrganizationService : IOrganizationService
             await _organizationRepository.UpdateAsync(existingOrganization);
 
             var organizationDto = _mapper.Map<OrganizationDto>(existingOrganization);
-            return ApiResponseDto<OrganizationDto>.SuccessResponse(organizationDto, "Organization updated successfully");
+            return ApiResponseDto<OrganizationDto>.Success(organizationDto, "Organization updated successfully");
         }
         catch (Exception ex)
         {
@@ -118,7 +118,7 @@ public class OrganizationService : IOrganizationService
             }
 
             await _organizationRepository.DeleteAsync(id);
-            return ApiResponseDto<bool>.SuccessResponse(true, "Organization deleted successfully");
+            return ApiResponseDto<bool>.Success(true, "Organization deleted successfully");
         }
         catch (Exception ex)
         {
@@ -141,7 +141,7 @@ public class OrganizationService : IOrganizationService
                 PageSize = pageSize
             };
 
-            return ApiResponseDto<PagedResultDto<OrganizationDto>>.SuccessResponse(pagedResult);
+            return ApiResponseDto<PagedResultDto<OrganizationDto>>.Success(pagedResult);
         }
         catch (Exception ex)
         {
@@ -155,7 +155,7 @@ public class OrganizationService : IOrganizationService
         {
             var organizations = await _organizationRepository.GetVerifiedOrganizationsAsync();
             var organizationDtos = _mapper.Map<IEnumerable<OrganizationDto>>(organizations);
-            return ApiResponseDto<IEnumerable<OrganizationDto>>.SuccessResponse(organizationDtos);
+            return ApiResponseDto<IEnumerable<OrganizationDto>>.Success(organizationDtos);
         }
         catch (Exception ex)
         {
@@ -176,7 +176,7 @@ public class OrganizationService : IOrganizationService
             organization.IsVerified = true;
             await _organizationRepository.UpdateAsync(organization);
 
-            return ApiResponseDto<bool>.SuccessResponse(true, "Organization verified successfully");
+            return ApiResponseDto<bool>.Success(true, "Organization verified successfully");
         }
         catch (Exception ex)
         {

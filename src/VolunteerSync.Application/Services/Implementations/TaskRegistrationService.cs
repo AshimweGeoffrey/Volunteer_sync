@@ -7,6 +7,7 @@ using VolunteerSync.Application.Services.Interfaces;
 using VolunteerSync.Domain.Entities;
 using VolunteerSync.Domain.Enums;
 using VolunteerSync.Domain.Interfaces.Repositories;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.Application.Services.Implementations;
 
@@ -72,8 +73,7 @@ public class TaskRegistrationService : ITaskRegistrationService
                 Items = registrationDtos,
                 TotalCount = registrations.Count(),
                 Page = page,
-                PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling(registrations.Count() / (double)pageSize)
+                PageSize = pageSize
             };
 
             return ApiResponseDto<PagedResultDto<TaskRegistrationDto>>.Success(result);
@@ -136,7 +136,7 @@ public class TaskRegistrationService : ITaskRegistrationService
             }
 
             // Check if already registered
-            var existingRegistration = await _registrationRepository.GetByTaskAndUserAsync(createDto.TaskId, createDto.UserId);
+            var existingRegistration = await _registrationRepository.GetByUserAndTaskAsync(createDto.UserId, createDto.TaskId);
             if (existingRegistration != null)
             {
                 return ApiResponseDto<TaskRegistrationDto>.Failure("User already registered for this task", 400);
@@ -181,8 +181,8 @@ public class TaskRegistrationService : ITaskRegistrationService
             }
 
             registration.Status = status;
-            var updatedRegistration = await _registrationRepository.UpdateAsync(registration);
-            var registrationDto = _mapper.Map<TaskRegistrationDto>(updatedRegistration);
+            await _registrationRepository.UpdateAsync(registration);
+            var registrationDto = _mapper.Map<TaskRegistrationDto>(registration);
 
             _logger.LogInformation("Registration status updated: {RegistrationId} -> {Status}", id, status);
             return ApiResponseDto<TaskRegistrationDto>.Success(registrationDto);
@@ -204,10 +204,10 @@ public class TaskRegistrationService : ITaskRegistrationService
                 return ApiResponseDto<bool>.Failure("Registration not found", 404);
             }
 
-            // Don't allow deletion of confirmed registrations
-            if (registration.Status == RegistrationStatus.Confirmed)
+            // Don't allow deletion of approved registrations
+            if (registration.Status == RegistrationStatus.Approved)
             {
-                return ApiResponseDto<bool>.Failure("Cannot delete confirmed registration", 400);
+                return ApiResponseDto<bool>.Failure("Cannot delete approved registration", 400);
             }
 
             await _registrationRepository.DeleteAsync(id);
@@ -237,7 +237,7 @@ public class TaskRegistrationService : ITaskRegistrationService
                 return ApiResponseDto<bool>.Failure("Only pending registrations can be approved", 400);
             }
 
-            registration.Status = RegistrationStatus.Confirmed;
+            registration.Status = RegistrationStatus.Approved;
             await _registrationRepository.UpdateAsync(registration);
 
             _logger.LogInformation("Registration approved: {RegistrationId}", id);
@@ -290,7 +290,7 @@ public class TaskRegistrationService : ITaskRegistrationService
             // Get all pending registrations for these tasks
             var allRegistrations = await _registrationRepository.GetAllAsync();
             var pendingRegistrations = allRegistrations
-                .Where(r => taskIds.Contains(r.TaskId) && r.Status == RegistrationStatus.Pending)
+                .Where(r => taskIds.Contains(r.VolunteerTaskId) && r.Status == RegistrationStatus.Pending)
                 .ToList();
 
             var registrationDtos = _mapper.Map<IEnumerable<TaskRegistrationDto>>(pendingRegistrations);

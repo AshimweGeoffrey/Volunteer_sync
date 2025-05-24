@@ -7,14 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="FluentValidation" Version="11.9.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VolunteerSync.Domain\VolunteerSync.Domain.csproj" />
+    <ProjectReference Include="../VolunteerSync.Domain/VolunteerSync.Domain.csproj" />
+    <ProjectReference Include="../VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

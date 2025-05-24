@@ -18,7 +18,7 @@ public class AuthController : BaseController
     {
         var result = await _authService.LoginAsync(request);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result);
         }
@@ -31,7 +31,7 @@ public class AuthController : BaseController
     {
         var result = await _authService.RegisterAsync(request);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result);
         }
@@ -44,7 +44,7 @@ public class AuthController : BaseController
     {
         var result = await _authService.RefreshTokenAsync(refreshToken);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result);
         }

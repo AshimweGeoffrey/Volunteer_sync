@@ -2,6 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using VolunteerSync.Domain.Enums;
 using VolunteerSync.Domain.ValueObjects;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.Domain.Entities;
 

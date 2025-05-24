@@ -21,7 +21,7 @@ public class UsersController : BaseController
         var userId = GetCurrentUserId();
         var result = await _userService.GetByIdAsync(userId);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return NotFound(result);
         }
@@ -35,7 +35,7 @@ public class UsersController : BaseController
         var userId = GetCurrentUserId();
         var result = await _userService.UpdateAsync(userId, updateUserDto);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result);
         }
@@ -48,7 +48,7 @@ public class UsersController : BaseController
     {
         var result = await _userService.GetByIdAsync(id);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return NotFound(result);
         }
@@ -76,7 +76,7 @@ public class UsersController : BaseController
     {
         var result = await _userService.DeleteAsync(id);
         
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result);
         }
