@@ -1,0 +1,6 @@
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.csproj.AssemblyReference.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.GeneratedMSBuildEditorConfig.editorconfig
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.AssemblyInfoInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.AssemblyInfo.cs
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.csproj.CoreCompileInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/SimpleSeeder.sourcelink.json

@@ -1,0 +1,6 @@
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.csproj.AssemblyReference.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.GeneratedMSBuildEditorConfig.editorconfig
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.AssemblyInfoInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.AssemblyInfo.cs
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.csproj.CoreCompileInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/TestConnection.sourcelink.json
