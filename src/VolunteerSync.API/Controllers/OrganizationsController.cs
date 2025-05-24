@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VolunteerSync.Application.DTOs.Organizations;
 using VolunteerSync.Application.Services.Interfaces;
-using VolunteerSync.API.Controllers.Base;
 
 namespace VolunteerSync.API.Controllers;
 
@@ -64,35 +63,19 @@ public class OrganizationsController : BaseController
         return CreateResponse(result);
     }
 
-    [HttpGet("{id}/members")]
-    [Authorize(Roles = "SuperAdmin,OrganizationAdmin,OrganizationMember")]
-    public async Task<IActionResult> GetOrganizationMembers(string id)
-    {
-        var result = await _organizationService.GetMembersAsync(id);
-        return CreateResponse(result);
-    }
-
-    [HttpPost("{id}/members/{userId}")]
-    [Authorize(Roles = "SuperAdmin,OrganizationAdmin")]
-    public async Task<IActionResult> AddMember(string id, string userId)
-    {
-        var result = await _organizationService.AddMemberAsync(id, userId);
-        return CreateResponse(result);
-    }
-
-    [HttpDelete("{id}/members/{userId}")]
-    [Authorize(Roles = "SuperAdmin,OrganizationAdmin")]
-    public async Task<IActionResult> RemoveMember(string id, string userId)
-    {
-        var result = await _organizationService.RemoveMemberAsync(id, userId);
-        return CreateResponse(result);
-    }
-
-    [HttpGet("featured")]
+    [HttpGet("verified")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetFeaturedOrganizations()
+    public async Task<IActionResult> GetVerifiedOrganizations()
     {
-        var result = await _organizationService.GetFeaturedAsync();
+        var result = await _organizationService.GetVerifiedAsync();
+        return CreateResponse(result);
+    }
+
+    [HttpPost("{id}/verify")]
+    [Authorize(Roles = "SuperAdmin")]
+    public async Task<IActionResult> VerifyOrganization(string id)
+    {
+        var result = await _organizationService.VerifyAsync(id);
         return CreateResponse(result);
     }
 }

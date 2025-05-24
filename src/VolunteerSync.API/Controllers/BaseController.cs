@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using VolunteerSync.Application.DTOs.Common;
 
 namespace VolunteerSync.API.Controllers;
 
@@ -25,5 +26,15 @@ public abstract class BaseController : ControllerBase
     protected bool IsAuthenticated()
     {
         return User.Identity?.IsAuthenticated ?? false;
+    }
+
+    protected IActionResult CreateResponse<T>(ApiResponseDto<T> response)
+    {
+        if (response.IsSuccess)
+        {
+            return Ok(response);
+        }
+
+        return BadRequest(response);
     }
 }

@@ -4,7 +4,6 @@ using System.Security.Claims;
 using VolunteerSync.Application.DTOs.Tasks;
 using VolunteerSync.Application.Services.Interfaces;
 using VolunteerSync.Domain.Enums;
-using VolunteerSync.API.Controllers.Base;
 
 namespace VolunteerSync.API.Controllers;
 
