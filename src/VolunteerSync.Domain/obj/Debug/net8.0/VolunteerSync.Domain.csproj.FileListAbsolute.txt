@@ -1,0 +1,6 @@
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.csproj.AssemblyReference.cache
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.AssemblyInfoInputs.cache
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.AssemblyInfo.cs
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.csproj.CoreCompileInputs.cache
+/home/micro/Volunteer_sync/src/VolunteerSync.Domain/obj/Debug/net8.0/VolunteerSync.Domain.sourcelink.json
