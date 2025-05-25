@@ -1,0 +1,8 @@
+nohup: ignoring input
+[02:26:42 INF] Starting VolunteerSync API
+[02:26:42 INF] User profile is available. Using '/home/micro/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+[02:26:42 INF] Now listening on: http://localhost:5000
+[02:26:42 INF] Application started. Press Ctrl+C to shut down.
+[02:26:42 INF] Hosting environment: Production
+[02:26:42 INF] Content root path: /home/micro/Volunteer_sync/backend/src/VolunteerSync.API
+[02:27:05 INF] Application is shutting down...

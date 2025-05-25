@@ -1,0 +1,6 @@
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.csproj.AssemblyReference.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.GeneratedMSBuildEditorConfig.editorconfig
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.AssemblyInfoInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.AssemblyInfo.cs
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.csproj.CoreCompileInputs.cache
+/home/micro/Volunteer_sync/obj/Debug/net8.0/DatabaseSeeder.sourcelink.json

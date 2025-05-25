@@ -1,0 +1,450 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/ */
+  html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  /* https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html */
+  [role="list"] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-block-size: 100vh;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  button,
+  input,
+  label {
+    line-height: 1.1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  img,
+  picture {
+    max-inline-size: 100%;
+    display: block;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+@layer variables {
+  :root {
+    /* COLORS */
+    --primary-100: #d4eaf7;
+    --primary-200: #313d44;
+    --magic-mint-50: #fffefb;
+    --magic-mint-100: #d4f7e4;
+    --magic-mint-200: #9feac6;
+    --magic-mint-300: #77deb3;
+    --magic-mint-400: #40c793;
+    --magic-mint-500: #1dac7a;
+    --magic-mint-600: #108b63;
+    --magic-mint-700: #0d6f51;
+    --magic-mint-800: #0d5842;
+    --magic-mint-900: #0c4837;
+    --magic-mint-950: #05291f;
+    /* FONTS */
+    --font-family: "Inter", sans-serif;
+    --font-size: 16px;
+  }
+}
+@layer layout {
+  .content {
+    margin: 0 120px;
+  }
+  .hero {
+    background-color: var(--magic-mint-200);
+  }
+  .stats {
+    background-color: var(--magic-mint-50);
+  }
+  .volunteer {
+    background-color: var(--magic-mint-300);
+  }
+  .join {
+    background-color: var(--magic-mint-50);
+  }
+  .footer {
+    background-color: var(--magic-mint-400);
+  }
+  .footer-bottom {
+    background-color: var(--magic-mint-500);
+  }
+
+  .header {
+    position: relative;
+    display: flex;
+    gap: 1100px;
+    padding: 20px;
+    margin: 0px 80px;
+    font-family: var(--font-family);
+    .main-logo {
+      position: relative;
+      right: 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+      h1 {
+        top: 3px;
+        position: relative;
+        white-space: nowrap;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+  .curve {
+    position: absolute;
+    width: 362px;
+  }
+  .hero-main {
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+    margin: 60px 160px;
+    padding: 15px;
+    height: 450px;
+    .hero-main-text {
+      display: flex;
+      flex-direction: column;
+      gap: 37px;
+      p {
+        color: var(--primary-200);
+      }
+      .inner-options {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        button {
+          background-color: var(--magic-mint-400);
+          border: none;
+          border-radius: 2px;
+          color: var(--magic-mint-50);
+        }
+        p {
+          background-color: var(--primary-100);
+          padding: 5px;
+          border: 1px solid var(--magic-mint-400);
+        }
+      }
+    }
+  }
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  .stats-header {
+    position: relative;
+    bottom: 105px;
+    display: flex;
+    flex-direction: row;
+    gap: 27px;
+  }
+  .stats-header-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    height: 220px;
+    width: 250px;
+    padding: 24px;
+    font-family: var(--font-family);
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: var(--magic-mint-50);
+    h1 {
+      font-size: 24px;
+      font-weight: 100;
+      color: var(--magic-mint-300);
+    }
+  }
+  .stats-body {
+    position: relative;
+    bottom: 20px;
+    display: flex;
+    gap: 200px;
+    font-family: var(--font-family);
+    align-items: center;
+    h1 {
+      font-size: 24px;
+      font-weight: 100;
+      width: 400px;
+    }
+    img {
+      max-width: 250px;
+      height: 250px;
+      height: auto;
+      background-color: transparent;
+    }
+  }
+  .stats-mission {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    p {
+      color: var(--primary-200);
+      width: 500px;
+    }
+  }
+  .stats-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 80px 0;
+    font-family: var(--font-family);
+    h1 {
+      font-weight: 100;
+    }
+  }
+  .stats-footer-stats-main {
+    display: flex;
+    gap: 20px;
+
+    img {
+      width: 50px;
+    }
+  }
+  .stats-footer-stats {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px;
+    background: var(--magic-mint-50);
+
+    /* shadow-md */
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .stats-footer-stats-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    p {
+      color: var(--primary-200);
+      font-size: medium;
+    }
+  }
+  .stats-footer-stats-inner-time {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .volunteer-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    font-family: var(--font-family);
+    gap: 250px;
+    img {
+      width: 400px;
+    }
+  }
+  .volunteer-main-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+    h1 {
+      position: relative;
+      bottom: 20px;
+      font-size: 34px;
+      font-weight: 600;
+    }
+    .volunteer-main-text-header {
+      display: flex;
+      flex-direction: column;
+    }
+    button {
+      background-color: var(--primary-200);
+      border: none;
+      border-radius: 2px;
+      color: var(--magic-mint-50);
+      padding: 10px;
+    }
+  }
+  .join-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px;
+    font-family: var(--font-family);
+    gap: 20px;
+    .join-main-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+    h1 {
+      font-size: 50px;
+      font-weight: 900;
+    }
+    h3 {
+      font-weight: 200;
+    }
+    button {
+      background-color: var(--magic-mint-400);
+      border: none;
+      border-radius: 2px;
+      color: var(--magic-mint-50);
+      padding: 10px 25px;
+      font-size: 16px;
+    }
+  }
+  .footer-main {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    color: var(--magic-mint-50);
+    padding: 50px;
+    font-family: var(--font-family);
+  }
+  .footer-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    .social-media {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-logo-text {
+      width: 450px;
+    }
+    img {
+      max-width: 23px;
+      color: var(--primary-100);
+    }
+    .logo {
+      display: flex;
+      gap: 6px;
+      img {
+        max-width: 23px;
+        color: var(--primary-100);
+      }
+      p {
+        font-size: 15px;
+        color: var(--magic-mint-50);
+        position: relative;
+        top: 5px;
+      }
+    }
+  }
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-family: var(--font-family);
+    h1 {
+      font-size: px;
+      color: var(--magic-mint-50);
+      position: relative;
+      top: 5px;
+      font-family: var(--font-family);
+      font-weight: 500;
+    }
+    .footer-links-inner {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  .footer-contact {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .footer-bottom {
+    display: flex;
+    padding: 6px 20px;
+    color: var(--magic-mint-50);
+    gap: 900px;
+  }
+  .footer-bottom-links {
+    display: flex;
+    gap: 40px;
+  }
+}
+@layer sizing {
+  .header {
+    img,
+    h1 {
+      max-width: 23px;
+      color: var(--primary-100);
+    }
+  }
+  .hero-main {
+    img {
+      max-width: 350px;
+      height: 350px;
+      height: auto;
+      background-color: transparent;
+    }
+  }
+  .hero-main-text {
+    h1 {
+      font-size: 40px;
+      font-family: var(--font-family);
+      font-weight: 900;
+    }
+    p {
+      font-size: 16px;
+      font-family: var(--font-family);
+    }
+    .inner-options {
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+}

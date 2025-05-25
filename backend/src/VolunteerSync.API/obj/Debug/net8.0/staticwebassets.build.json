@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "/LB+t77LYO8ukU7h8BuzPgRPPFbzrMtwwpSJhq4dGWY=",
+  "Source": "VolunteerSync.API",
+  "BasePath": "_content/VolunteerSync.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

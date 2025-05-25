@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volunteer Sync</title>
+    <link rel="icon" href="assets/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="css/project-detail.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <img src="assets/logo-black.svg" alt="" />
+        <p>VolunteerSync</p>
+      </div>
+      <div class="header-right">
+        <div class="header-right-search search">
+          <img src="assets/search.svg" alt="" />
+          <input type="text" placeholder="Search" />
+        </div>
+        <div class="separator">|</div>
+        <div class="header-right-icon">
+          <img src="assets/notification icon.svg" alt="" />
+          <img src="assets/1.jpeg" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="sidebar-main">
+        <div class="sidebar">
+          <div>
+            <img src="assets/1.jpeg" alt="" />
+            <div>
+              <h1>John Doe</h1>
+              <img src="assets/badge.svg" alt="" />
+              <p>Joined September 2023</p>
+            </div>
+            <img src="assets/edit.svg" alt="" />
+          </div>
+          <div>
+            <div>
+              <div>
+                <img src="assets/profile.svg" alt="" />
+                <div>
+                  <h1>Profile</h1>
+                  <p>Email,Location,Badges....</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- CSS Styles -->
+        <style>
+          .profile-editor {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+              "Segoe UI", Roboto, sans-serif;
+            font-size: 13px;
+            color: #333;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+          }
+
+          .profile-editor * {
+            box-sizing: border-box;
+          }
+
+          .profile-editor-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 12px;
+          }
+
+          .profile-editor-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+          }
+
+          .profile-card {
+            background-color: #fffefb;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            padding: 12px;
+            margin-bottom: 12px;
+          }
+
+          .profile-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+          }
+
+          .profile-field {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 8px;
+          }
+
+          .profile-field label {
+            display: block;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 3px;
+          }
+
+          .profile-field input,
+          .profile-field select,
+          .profile-field textarea {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+          }
+
+          .profile-field textarea {
+            height: 60px;
+            resize: vertical;
+          }
+
+          .social-link {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+          }
+
+          .social-platform {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            min-width: 80px;
+            color: white;
+            font-size: 12px;
+          }
+
+          .dribbble {
+            background-color: #e74d89;
+          }
+          .github {
+            background-color: #000000;
+          }
+          .linkedin {
+            background-color: #0a66c2;
+          }
+
+          .social-input {
+            flex: 1;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-radius: 0;
+            padding: 6px 8px;
+            font-size: 12px;
+          }
+
+          .add-link {
+            color: #3498db;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+          }
+
+          .skill-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+          }
+
+          .skill-content h4 {
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0;
+          }
+
+          .skill-content p {
+            font-size: 11px;
+            color: #555;
+            margin: 2px 0 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+
+          .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px;
+          }
+
+          .icon-sm {
+            width: 12px;
+            height: 12px;
+          }
+
+          .profile-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+          }
+
+          .btn {
+            padding: 6px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .btn-primary {
+            background-color: #108b63;
+            color: white;
+            border: none;
+          }
+
+          .btn-primary:hover {
+            background-color: #0c7a56;
+          }
+
+          .btn-secondary {
+            background: none;
+            border: 1px solid #3b3c3d;
+            color: #374151;
+          }
+
+          .btn-secondary:hover {
+            background-color: #f5f5f5;
+          }
+
+          .btn-blue {
+            color: #3498db;
+            border: 1px solid #3498db;
+            background: none;
+          }
+
+          .btn-red {
+            color: #ff6348;
+            border: none;
+            background: none;
+          }
+
+          /* Profile Image Styles */
+          .profile-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 12px;
+          }
+
+          .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e5e5e5;
+            margin-bottom: 8px;
+          }
+
+          .upload-button {
+            font-size: 12px;
+            color: #3498db;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          /* Optimizations for responsiveness */
+          @media (max-width: 480px) {
+            .profile-row {
+              flex-direction: column;
+            }
+
+            .profile-field {
+              min-width: 100%;
+            }
+          }
+        </style>
+
+        <!-- Main Profile Editor Container -->
+        <div class="profile-editor">
+          <!-- Header -->
+          <div class="profile-editor-header">
+            <svg
+              class="icon-sm"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              width="12"
+              height="12"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <h2>Edit Profile</h2>
+          </div>
+
+          <!-- Profile Image -->
+          <div class="profile-card">
+            <div class="profile-image-container">
+              <img
+                src="https://i.pravatar.cc/150?u=AshimweGeoffrey"
+                alt="Profile"
+                class="profile-image"
+                id="profileImage"
+              />
+              <button
+                class="upload-button"
+                onclick="document.getElementById('imageUpload').click()"
+              >
+                <svg
+                  class="icon-sm"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="12"
+                  height="12"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload new photo
+              </button>
+              <input
+                type="file"
+                id="imageUpload"
+                style="display: none"
+                accept="image/*"
+                onchange="updateProfileImage(this)"
+              />
+            </div>
+          </div>
+
+          <!-- Basic Information -->
+          <div class="profile-card">
+            <div class="profile-row">
+              <div class="profile-field">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" value="Ashimwe" />
+              </div>
+              <div class="profile-field">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" value="Geoffrey" />
+              </div>
+            </div>
+
+            <div class="profile-field">
+              <label for="bio">Bio</label>
+              <textarea id="bio">
+Software developer passionate about building high-quality applications</textarea
+              >
+            </div>
+
+            <div class="profile-field">
+              <label for="username">Username</label>
+              <input type="text" id="username" value="AshimweGeoffrey" />
+            </div>
+
+            <div class="profile-row">
+              <div class="profile-field">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                  <option selected>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="profile-field">
+                <label for="age">Age</label>
+                <input type="number" id="age" value="27" />
+              </div>
+            </div>
+
+            <div class="profile-row">
+              <div class="profile-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="geoffrey@example.com" />
+              </div>
+              <div class="profile-field">
+                <label for="location">Location</label>
+                <input type="text" id="location" value="Kigali, Rwanda" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="profile-card">
+            <div class="social-link">
+              <div class="social-platform dribbble">Dribbble</div>
+              <input
+                type="text"
+                class="social-input"
+                value="https://dribbble.com/AshimweGeoffrey"
+              />
+            </div>
+
+            <div class="social-link">
+              <div class="social-platform github">GitHub</div>
+              <input
+                type="text"
+                class="social-input"
+                value="https://github.com/AshimweGeoffrey"
+              />
+            </div>
+
+            <div class="social-link">
+              <div class="social-platform linkedin">LinkedIn</div>
+              <input
+                type="text"
+                class="social-input"
+                value="https://linkedin.com/in/ashimwe-geoffrey"
+              />
+            </div>
+
+            <button class="add-link">
+              <svg
+                class="icon-sm"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                width="12"
+                height="12"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add more social links
+            </button>
+          </div>
+
+          <!-- Skills -->
+          <div class="profile-card">
+            <div class="skill-item">
+              <div class="skill-content">
+                <h4>Full Stack Development</h4>
+                <p>
+                  Frontend and backend development with modern frameworks and
+                  technologies
+                </p>
+              </div>
+              <button class="icon-btn">
+                <svg
+                  class="icon-sm"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="12"
+                  height="12"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-content">
+                <h4>UI/UX Design</h4>
+                <p>
+                  Creating intuitive and engaging user interfaces and
+                  experiences
+                </p>
+              </div>
+              <button class="icon-btn">
+                <svg
+                  class="icon-sm"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="12"
+                  height="12"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-content">
+                <h4>Cloud Architecture</h4>
+                <p>Designing and implementing scalable cloud-based solutions</p>
+              </div>
+              <button class="icon-btn">
+                <svg
+                  class="icon-sm"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  width="12"
+                  height="12"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  ></path>
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="profile-field" style="margin-top: 10px">
+              <label for="newSkill">Add new skill</label>
+              <input
+                type="text"
+                id="newSkill"
+                placeholder="Search for new skills..."
+              />
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="profile-actions">
+            <button class="btn btn-primary" id="saveButton">
+              Save Changes
+            </button>
+            <button class="btn btn-secondary" id="cancelButton">Cancel</button>
+          </div>
+        </div>
+
+        <script>
+          // Function to update profile image preview
+          function updateProfileImage(input) {
+            if (input.files && input.files[0]) {
+              const reader = new FileReader();
+
+              reader.onload = function (e) {
+                document.getElementById("profileImage").src = e.target.result;
+              };
+
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+
+          // Save button functionality
+          document
+            .getElementById("saveButton")
+            .addEventListener("click", function () {
+              // Show a loading state briefly
+              this.textContent = "Saving...";
+              this.disabled = true;
+
+              // Simulate saving data
+              setTimeout(() => {
+                // Restore button state
+                this.textContent = "Save Changes";
+                this.disabled = false;
+
+                // Show success message (could be a toast notification in a real app)
+                alert("Profile updated successfully!");
+              }, 800);
+            });
+
+          // Cancel button functionality
+          document
+            .getElementById("cancelButton")
+            .addEventListener("click", function () {
+              if (confirm("Discard changes?")) {
+                // In a real application, this would reset the form or redirect
+                window.location.reload();
+              }
+            });
+
+          // Add more social links functionality
+          document
+            .querySelector(".add-link")
+            .addEventListener("click", function () {
+              const socialLinks = document.querySelector(
+                ".profile-card:nth-of-type(3)"
+              );
+              const newSocialLink = document.createElement("div");
+              newSocialLink.className = "social-link";
+
+              const platformOptions = [
+                "Twitter",
+                "Instagram",
+                "YouTube",
+                "Behance",
+              ];
+              const randomPlatform =
+                platformOptions[
+                  Math.floor(Math.random() * platformOptions.length)
+                ];
+
+              newSocialLink.innerHTML = `
+      <div class="social-platform" style="background-color: #1DA1F2;">${randomPlatform}</div>
+      <input type="text" class="social-input" value="" placeholder="https://${randomPlatform.toLowerCase()}.com/username">
+    `;
+
+              // Insert the new social link before the "Add more social links" button
+              socialLinks.insertBefore(newSocialLink, this);
+            });
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
