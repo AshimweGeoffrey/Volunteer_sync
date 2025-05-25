@@ -1,28 +1,60 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 import "../css/auth-scoped.css";
 
 const Signup: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signup } = useUser();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log("Signup attempt:", {
-      firstName,
-      lastName,
-      email,
-      username,
-      location,
-      password,
-      repeatPassword,
-    });
+    setError("");
+    setIsSubmitting(true);
+
+    // Validation
+    if (password !== repeatPassword) {
+      setError("Passwords do not match.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      // Using the correct request format as specified in the backend API documentation
+      const success = await signup({
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNumber,
+      });
+
+      if (success) {
+        // Redirect to home page after successful signup
+        navigate("/", { replace: true });
+      } else {
+        setError("Failed to create account. Please try again.");
+      }
+    } catch (err) {
+      setError("An error occurred during signup. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -51,6 +83,21 @@ const Signup: React.FC = () => {
           </div>
           <form onSubmit={handleSubmit}>
             <div className="auth-form-fields">
+              {error && (
+                <div
+                  style={{
+                    color: "#dc3545",
+                    backgroundColor: "#f8d7da",
+                    border: "1px solid #f5c6cb",
+                    borderRadius: "4px",
+                    padding: "8px 12px",
+                    marginBottom: "16px",
+                    fontSize: "14px",
+                  }}
+                >
+                  {error}
+                </div>
+              )}
               <div className="auth-name-fields">
                 <div className="auth-form-group">
                   <label htmlFor="firstName">First Name</label>
@@ -60,6 +107,8 @@ const Signup: React.FC = () => {
                       id="firstName"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
+                      required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -71,6 +120,8 @@ const Signup: React.FC = () => {
                       id="lastName"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
+                      required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -84,30 +135,21 @@ const Signup: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
               <div className="auth-form-group">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="phoneNumber">Phone Number</label>
                 <div className="auth-input-field">
                   <input
-                    type="text"
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="tel"
+                    id="phoneNumber"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="+123456789"
+                    disabled={isSubmitting}
                   />
-                </div>
-              </div>
-              <div className="auth-form-group">
-                <label htmlFor="location">Location</label>
-                <div className="auth-input-field auth-location-field">
-                  <input
-                    type="text"
-                    id="location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                  <div className="auth-dropdown-arrow"></div>
                 </div>
               </div>
               <div className="auth-form-group">
@@ -118,6 +160,21 @@ const Signup: React.FC = () => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+              <div className="auth-form-group">
+                <label htmlFor="password">Password</label>
+                <div className="auth-input-field">
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -129,11 +186,17 @@ const Signup: React.FC = () => {
                     id="repeatPassword"
                     value={repeatPassword}
                     onChange={(e) => setRepeatPassword(e.target.value)}
+                    required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
-              <button type="submit" className="auth-button">
-                Sign up
+              <button
+                type="submit"
+                className="auth-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Creating Account..." : "Sign up"}
               </button>
             </div>
           </form>

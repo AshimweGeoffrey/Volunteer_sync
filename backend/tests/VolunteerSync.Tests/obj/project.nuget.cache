@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "helxXr4CXzI=",
+  "dgSpecHash": "Sh/NdAhv/S4=",
   "success": true,
-  "projectFilePath": "/home/micro/Volunteer_sync/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
+  "projectFilePath": "/home/micro/Volunteer_sync/backend/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
   "expectedPackageFiles": [
     "/home/micro/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/home/micro/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

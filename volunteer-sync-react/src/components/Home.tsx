@@ -122,7 +122,10 @@ const Home: React.FC = () => {
                     <div className="stats-footer-stats-inner">
                       <h1>{project.title}</h1>
                       <p>
-                        {project.location} | {project.organization}
+                        {typeof project.location === "string"
+                          ? project.location
+                          : `${project.location.city}, ${project.location.state}`}{" "}
+                        | {project.organization}
                       </p>
                       <p>{project.description}</p>
                       <div className="stats-footer-stats-inner-time">

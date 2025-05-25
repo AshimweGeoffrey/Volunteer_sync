@@ -2,6 +2,7 @@ using AutoMapper;
 using VolunteerSync.Application.Common.Exceptions;
 using VolunteerSync.Application.DTOs.Auth;
 using VolunteerSync.Application.DTOs.Common;
+using VolunteerSync.Application.DTOs.Users;
 using VolunteerSync.Application.Services.Interfaces;
 using VolunteerSync.Domain.Entities;
 using VolunteerSync.Domain.Interfaces.Repositories;
@@ -55,14 +56,14 @@ public class AuthService : IAuthService
             user.LastLoginAt = DateTime.UtcNow;
             await _userRepository.UpdateAsync(user);
 
+            var userDto = _mapper.Map<UserDto>(user);
+
             var tokenResponse = new TokenResponseDto
             {
-                AccessToken = accessToken,
+                Token = accessToken,
                 RefreshToken = refreshToken,
-                ExpiresAt = DateTime.UtcNow.AddHours(24),
-                UserId = user.Id,
-                Email = user.Email,
-                Role = user.Role.ToString()
+                User = userDto,
+                ExpiresIn = 3600 * 24 // 24 hours in seconds
             };
 
             return ApiResponseDto<TokenResponseDto>.Success(tokenResponse, "Login successful");
@@ -94,14 +95,14 @@ public class AuthService : IAuthService
             var accessToken = _tokenService.GenerateAccessToken(user.Id, user.Email, user.Role.ToString());
             var refreshToken = _tokenService.GenerateRefreshToken();
 
+            var userDto = _mapper.Map<UserDto>(user);
+
             var tokenResponse = new TokenResponseDto
             {
-                AccessToken = accessToken,
+                Token = accessToken,
                 RefreshToken = refreshToken,
-                ExpiresAt = DateTime.UtcNow.AddHours(24),
-                UserId = user.Id,
-                Email = user.Email,
-                Role = user.Role.ToString()
+                User = userDto,
+                ExpiresIn = 3600 * 24 // 24 hours in seconds
             };
 
             return ApiResponseDto<TokenResponseDto>.Success(tokenResponse, "Registration successful");
@@ -112,17 +113,29 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<ApiResponseDto<TokenResponseDto>> RefreshTokenAsync(string refreshToken)
+    public async Task<ApiResponseDto<RefreshTokenResponseDto>> RefreshTokenAsync(string refreshToken)
     {
         try
         {
-            // In a real implementation, you would validate the refresh token against a stored value
-            // For now, we'll just return an error
-            return ApiResponseDto<TokenResponseDto>.ErrorResponse("Refresh token functionality not fully implemented");
+            // For this simplified implementation, we'll treat the refresh token as a simple GUID
+            // In a real implementation, you would store refresh tokens in database with expiration
+            // and validate against that stored value
+            
+            if (string.IsNullOrEmpty(refreshToken) || refreshToken.Length < 10)
+            {
+                return ApiResponseDto<RefreshTokenResponseDto>.ErrorResponse("Invalid refresh token");
+            }
+
+            // In this simplified version, we need another way to identify the user
+            // For now, we'll return an error indicating that refresh tokens need to be properly implemented
+            // with user association stored in the database
+            
+            await Task.CompletedTask; // Remove async warning
+            return ApiResponseDto<RefreshTokenResponseDto>.ErrorResponse("Refresh token functionality requires database storage of tokens with user association");
         }
         catch (Exception ex)
         {
-            return ApiResponseDto<TokenResponseDto>.ErrorResponse("An error occurred during token refresh", new List<string> { ex.Message });
+            return ApiResponseDto<RefreshTokenResponseDto>.ErrorResponse("An error occurred during token refresh", new List<string> { ex.Message });
         }
     }
 
@@ -132,6 +145,7 @@ public class AuthService : IAuthService
         {
             // In a real implementation, you would invalidate the refresh token
             // For now, we'll just return success
+            await Task.CompletedTask; // Remove async warning
             return ApiResponseDto<bool>.Success(true, "Logout successful");
         }
         catch (Exception ex)

@@ -1,64 +1,172 @@
 import React, { useState } from "react";
 import { useUser } from "../contexts/UserContext";
+import { User } from "../types";
 import Header from "./Header";
 
 const EditProfile: React.FC = () => {
-  const { currentUser, updateUser } = useUser();
+  const { currentUser, updateUser, updateProfilePicture, addNotification } =
+    useUser();
 
   const [profileData, setProfileData] = useState({
-    name: currentUser?.name || "User Name",
-    bio: currentUser?.bio || "No bio available",
-    gender: currentUser?.gender || "Not specified",
-    age: currentUser?.age?.toString() || "Not specified",
-    email: currentUser?.email || "user@example.com",
-    location: currentUser?.location || "Location not set",
+    firstName: currentUser?.name?.split(" ")[0] || currentUser?.firstName || "",
+    lastName:
+      currentUser?.name?.split(" ").slice(1).join(" ") ||
+      currentUser?.lastName ||
+      "",
+    bio: currentUser?.bio || "",
+    gender: currentUser?.gender || "",
+    age: currentUser?.age?.toString() || "",
+    email: currentUser?.email || "",
+    location: currentUser?.location || "",
     profileImage: currentUser?.profileImage || "/assets/1.jpeg",
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (field: string, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsLoading(true);
-    // Simulate API call and update user context
-    setTimeout(() => {
-      const updatedUser = {
-        ...currentUser!,
-        name: profileData.name,
+    setError(null);
+
+    try {
+      // Prepare the update data in the frontend User format (DataTransformer will convert to backend format)
+      const updateData: Partial<User> = {
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
         bio: profileData.bio,
         gender: profileData.gender,
-        age: parseInt(profileData.age) || 0,
-        email: profileData.email,
+        age: profileData.age ? parseInt(profileData.age) : undefined,
         location: profileData.location,
-        profileImage: profileData.profileImage,
       };
-      updateUser(updatedUser);
+
+      // Remove undefined values
+      const cleanUpdateData = Object.fromEntries(
+        Object.entries(updateData).filter(
+          ([_, value]) => value !== undefined && value !== ""
+        )
+      );
+
+      // Use the UserContext's updateUser method which calls the API
+      await updateUser(cleanUpdateData);
+
+      // Add success notification
+      addNotification({
+        title: "Profile Updated Successfully!",
+        message: "Your profile information has been updated and saved.",
+        type: "Success",
+        isRead: false,
+        actionUrl: "/profile",
+      });
+
       setIsLoading(false);
-      alert("Profile updated successfully!");
-    }, 800);
+    } catch (error: any) {
+      setError(error.message || "Failed to update profile");
+      setIsLoading(false);
+
+      // Add error notification
+      addNotification({
+        title: "Profile Update Failed",
+        message:
+          error.message ||
+          "There was an error updating your profile. Please try again.",
+        type: "Error",
+        isRead: false,
+      });
+    }
   };
 
   const handleCancel = () => {
-    if (window.confirm("Discard changes?")) {
-      // Reset to original values or navigate back
-      window.location.reload();
+    // Check if there are unsaved changes
+    const hasChanges =
+      profileData.firstName !==
+        (currentUser?.name?.split(" ")[0] || currentUser?.firstName || "") ||
+      profileData.lastName !==
+        (currentUser?.name?.split(" ").slice(1).join(" ") ||
+          currentUser?.lastName ||
+          "") ||
+      profileData.bio !== (currentUser?.bio || "") ||
+      profileData.gender !== (currentUser?.gender || "") ||
+      profileData.age !== (currentUser?.age?.toString() || "") ||
+      profileData.location !== (currentUser?.location || "") ||
+      profileData.profileImage !==
+        (currentUser?.profileImage || "/assets/1.jpeg");
+
+    if (hasChanges) {
+      if (
+        window.confirm(
+          "You have unsaved changes. Are you sure you want to discard them?"
+        )
+      ) {
+        // Reset to original values
+        setProfileData({
+          firstName:
+            currentUser?.name?.split(" ")[0] || currentUser?.firstName || "",
+          lastName:
+            currentUser?.name?.split(" ").slice(1).join(" ") ||
+            currentUser?.lastName ||
+            "",
+          bio: currentUser?.bio || "",
+          gender: currentUser?.gender || "",
+          age: currentUser?.age?.toString() || "",
+          email: currentUser?.email || "",
+          location: currentUser?.location || "",
+          profileImage: currentUser?.profileImage || "/assets/1.jpeg",
+        });
+        setError(null);
+      }
+    } else {
+      // No changes, can safely go back
+      window.history.back();
     }
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Check file size (limit to 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError("Image file size must be less than 5MB");
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith("image/")) {
+        setError("Please select a valid image file");
+        return;
+      }
+
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         if (e.target?.result) {
+          const imageBase64 = e.target!.result as string;
+
+          // Update state for immediate UI feedback
           setProfileData((prev) => ({
             ...prev,
-            profileImage: e.target!.result as string,
-          }));
+            profileImage: imageBase64,
+          })); // Save profile image to localStorage via UserContext
+          try {
+            await updateProfilePicture(imageBase64);
+            setError(null); // Clear any previous errors
+
+            // Add success notification
+            addNotification({
+              title: "Profile Picture Updated",
+              message: "Your profile picture has been updated successfully.",
+              type: "Success",
+              isRead: false,
+            });
+          } catch (error) {
+            setError("Failed to save profile image");
+          }
         }
+      };
+      reader.onerror = () => {
+        setError("Failed to read the image file");
       };
       reader.readAsDataURL(file);
     }
@@ -186,13 +294,13 @@ const EditProfile: React.FC = () => {
                         color: "var(--primary-200)",
                       }}
                     >
-                      Full Name
+                      First Name
                     </label>
                     <input
                       type="text"
-                      value={profileData.name}
+                      value={profileData.firstName}
                       onChange={(e) =>
-                        handleInputChange("name", e.target.value)
+                        handleInputChange("firstName", e.target.value)
                       }
                       style={{
                         width: "100%",
@@ -204,6 +312,44 @@ const EditProfile: React.FC = () => {
                       }}
                     />
                   </div>
+                  <div style={{ flex: 1, minWidth: "250px" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        marginBottom: "8px",
+                        color: "var(--primary-200)",
+                      }}
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      value={profileData.lastName}
+                      onChange={(e) =>
+                        handleInputChange("lastName", e.target.value)
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        border: "1px solid var(--magic-mint-200)",
+                        borderRadius: "6px",
+                        fontSize: "16px",
+                        outline: "none",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    marginBottom: "15px",
+                    flexWrap: "wrap",
+                  }}
+                >
                   <div style={{ flex: 1, minWidth: "250px" }}>
                     <label
                       style={{
@@ -230,6 +376,7 @@ const EditProfile: React.FC = () => {
                         outline: "none",
                       }}
                     >
+                      <option value="">Select Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Non-binary">Non-binary</option>
@@ -237,6 +384,34 @@ const EditProfile: React.FC = () => {
                         Prefer not to say
                       </option>
                     </select>
+                  </div>
+                  <div style={{ flex: 1, minWidth: "250px" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        marginBottom: "8px",
+                        color: "var(--primary-200)",
+                      }}
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      value={profileData.email}
+                      disabled
+                      style={{
+                        width: "100%",
+                        padding: "12px",
+                        border: "1px solid var(--magic-mint-200)",
+                        borderRadius: "6px",
+                        fontSize: "16px",
+                        outline: "none",
+                        backgroundColor: "#f5f5f5",
+                        color: "#666",
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -285,6 +460,8 @@ const EditProfile: React.FC = () => {
                       type="number"
                       value={profileData.age}
                       onChange={(e) => handleInputChange("age", e.target.value)}
+                      min="16"
+                      max="100"
                       style={{
                         width: "100%",
                         padding: "12px",
@@ -305,14 +482,15 @@ const EditProfile: React.FC = () => {
                         color: "var(--primary-200)",
                       }}
                     >
-                      Email
+                      Location
                     </label>
                     <input
-                      type="email"
-                      value={profileData.email}
+                      type="text"
+                      value={profileData.location}
                       onChange={(e) =>
-                        handleInputChange("email", e.target.value)
+                        handleInputChange("location", e.target.value)
                       }
+                      placeholder="City, Country"
                       style={{
                         width: "100%",
                         padding: "12px",
@@ -324,35 +502,23 @@ const EditProfile: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div style={{ marginTop: "15px" }}>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      marginBottom: "8px",
-                      color: "var(--primary-200)",
-                    }}
-                  >
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    value={profileData.location}
-                    onChange={(e) =>
-                      handleInputChange("location", e.target.value)
-                    }
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      border: "1px solid var(--magic-mint-200)",
-                      borderRadius: "6px",
-                      fontSize: "16px",
-                      outline: "none",
-                    }}
-                  />
-                </div>
               </div>
+
+              {/* Error Display */}
+              {error && (
+                <div
+                  style={{
+                    backgroundColor: "#fee",
+                    color: "#c33",
+                    padding: "12px",
+                    borderRadius: "6px",
+                    marginBottom: "20px",
+                    border: "1px solid #fcc",
+                  }}
+                >
+                  {error}
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div style={{ display: "flex", gap: "15px" }}>

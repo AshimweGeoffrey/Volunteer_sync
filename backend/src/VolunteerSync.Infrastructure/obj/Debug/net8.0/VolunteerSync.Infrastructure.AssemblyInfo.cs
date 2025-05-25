@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VolunteerSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2225bbed282cbe8f9f5930d3ce42fe4675392f6a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07ed7413dcf23f10097f937c87e40c5925c2c899")]
 [assembly: System.Reflection.AssemblyProductAttribute("VolunteerSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VolunteerSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

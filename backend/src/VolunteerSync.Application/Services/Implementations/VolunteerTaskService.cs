@@ -56,11 +56,39 @@ public class VolunteerTaskService : IVolunteerTaskService
         }
     }
 
-    public async Task<ApiResponseDto<PagedResultDto<VolunteerTaskDto>>> GetAllAsync(int page, int pageSize)
+    public async Task<ApiResponseDto<PagedResultDto<VolunteerTaskDto>>> GetAllAsync(int page, int pageSize, TaskStatus? status = null, TaskCategory? category = null, string? search = null, string? organizationId = null)
     {
         try
         {
             var tasks = await _taskRepository.GetAllAsync();
+
+            // Apply filters
+            if (status.HasValue)
+            {
+                tasks = tasks.Where(t => t.Status == status.Value);
+            }
+
+            if (category.HasValue)
+            {
+                tasks = tasks.Where(t => t.Category == category.Value);
+            }
+
+            if (!string.IsNullOrEmpty(organizationId))
+            {
+                tasks = tasks.Where(t => t.OrganizationId == organizationId);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchLower = search.ToLower();
+                tasks = tasks.Where(t => 
+                    t.Title.ToLower().Contains(searchLower) ||
+                    t.Description.ToLower().Contains(searchLower) ||
+                    t.Tags.Any(tag => tag.ToLower().Contains(searchLower)));
+            }
+
+            var totalCount = tasks.Count();
+
             var pagedTasks = tasks
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -71,7 +99,7 @@ public class VolunteerTaskService : IVolunteerTaskService
             var result = new PagedResultDto<VolunteerTaskDto>
             {
                 Items = taskDtos,
-                TotalCount = tasks.Count(),
+                TotalCount = totalCount,
                 Page = page,
                 PageSize = pageSize
             };

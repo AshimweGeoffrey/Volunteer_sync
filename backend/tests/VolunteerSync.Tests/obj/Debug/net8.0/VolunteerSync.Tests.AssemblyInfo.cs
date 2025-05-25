@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VolunteerSync.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d8b164da39e94f84aeb3c3b2be1b6d43e725e51")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07ed7413dcf23f10097f937c87e40c5925c2c899")]
 [assembly: System.Reflection.AssemblyProductAttribute("VolunteerSync.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VolunteerSync.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

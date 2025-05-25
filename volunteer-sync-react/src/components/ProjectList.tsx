@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { mockProjects } from "../data/mockData";
+import { tasksService } from "../services";
+import { VolunteerProject } from "../types";
+import { DataTransformer } from "../utils/dataTransformer";
+import { useUser } from "../contexts/UserContext";
 import Header from "./Header";
 
 const ProjectList: React.FC = () => {
+  const { currentUser } = useUser();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [projects, setProjects] = useState<VolunteerProject[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -19,15 +26,38 @@ const ProjectList: React.FC = () => {
     ],
   });
 
+  // Load projects on component mount
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
+  const loadProjects = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await tasksService.getTasks({ pageSize: 100 });
+      const transformedProjects = response.items.map(
+        DataTransformer.transformTask
+      );
+      setProjects(transformedProjects);
+    } catch (err) {
+      console.error("Failed to load projects:", err);
+      setError("Failed to load projects. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Filter projects by status and search
-  const ongoingProjects = mockProjects.filter((project) => {
+  const ongoingProjects = projects.filter((project) => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
     return project.status === "active" && matchesSearch;
   });
 
-  const finishedProjects = mockProjects.filter((project) => {
+  const finishedProjects = projects.filter((project) => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       project.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -44,10 +74,81 @@ const ProjectList: React.FC = () => {
     setFormData((prev) => ({ ...prev, skills: newSkills }));
   };
 
-  const handleSubmit = () => {
-    console.log("Creating project:", formData);
-    setShowCreateModal(false);
-    // Here you would typically make an API call to create the project
+  // Check if user has permission to create tasks
+  const canCreateTasks = () => {
+    if (!currentUser) return false;
+    const allowedRoles = [
+      "SuperAdmin",
+      "OrganizationAdmin",
+      "OrganizationMember",
+    ];
+    return allowedRoles.includes(currentUser.role);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Check permissions before attempting to create
+      if (!canCreateTasks()) {
+        setError(
+          "You don't have permission to create tasks. Contact your organization administrator."
+        );
+        return;
+      }
+
+      // Create task data for the API following the CreateTaskRequest interface
+      const taskData = {
+        title: formData.title,
+        description: formData.description,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        location: {
+          street: formData.location,
+          city: "Kigali",
+          state: "Kigali",
+          zipCode: "00000",
+          country: "Rwanda",
+          latitude: -1.9706,
+          longitude: 30.1044,
+        },
+        maxVolunteers: 10,
+        category: 1, // Default category
+        requirements: formData.goals ? [formData.goals] : [],
+        skills: formData.skills
+          .filter((skill) => skill.name && skill.weight)
+          .map((skill) => skill.name),
+        tags: [],
+        isUrgent: false,
+        applicationDeadline: formData.endDate || new Date().toISOString(),
+      };
+
+      await tasksService.createTask(taskData);
+
+      // Reset form and close modal
+      setFormData({
+        title: "",
+        description: "",
+        goals: "",
+        location: "",
+        startDate: "",
+        endDate: "",
+        skills: [
+          { weight: "", name: "" },
+          { weight: "", name: "" },
+        ],
+      });
+      setShowCreateModal(false);
+
+      // Reload projects to show the new one
+      await loadProjects();
+    } catch (err) {
+      console.error("Failed to create project:", err);
+      setError("Failed to create project. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCancel = () => {
@@ -233,6 +334,38 @@ const ProjectList: React.FC = () => {
 
         {/* Main Content */}
         <div style={{ flex: 1 }}>
+          {/* Error Message */}
+          {error && (
+            <div
+              style={{
+                backgroundColor: "#f8d7da",
+                border: "1px solid #f5c6cb",
+                color: "#721c24",
+                padding: "12px",
+                borderRadius: "8px",
+                marginBottom: "20px",
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          {/* Loading State */}
+          {isLoading && !projects.length && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "200px",
+                fontSize: "18px",
+                color: "var(--magic-mint-600)",
+              }}
+            >
+              Loading projects...
+            </div>
+          )}
+
           {/* Projects Header */}
           <div style={{ marginBottom: "30px" }}>
             <div
@@ -254,23 +387,44 @@ const ProjectList: React.FC = () => {
                 Projects
               </h1>
               <button
-                onClick={() => setShowCreateModal(true)}
+                onClick={() => {
+                  if (canCreateTasks()) {
+                    setShowCreateModal(true);
+                  } else {
+                    setError(
+                      "You don't have permission to create tasks. Only organization members can create tasks."
+                    );
+                  }
+                }}
+                disabled={isLoading}
                 style={{
-                  background: "var(--magic-mint-500)",
+                  background: canCreateTasks()
+                    ? "var(--magic-mint-500)"
+                    : "#ccc",
                   color: "white",
                   border: "none",
                   padding: "12px 24px",
                   borderRadius: "8px",
                   fontSize: "16px",
                   fontWeight: "500",
-                  cursor: "pointer",
+                  cursor: canCreateTasks() ? "pointer" : "not-allowed",
                   transition: "background-color 0.2s",
+                  opacity: canCreateTasks() ? 1 : 0.6,
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "var(--magic-mint-600)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "var(--magic-mint-500)")
+                onMouseEnter={(e) => {
+                  if (canCreateTasks()) {
+                    e.currentTarget.style.background = "var(--magic-mint-600)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (canCreateTasks()) {
+                    e.currentTarget.style.background = "var(--magic-mint-500)";
+                  }
+                }}
+                title={
+                  canCreateTasks()
+                    ? "Create new Project"
+                    : "You need organization permissions to create tasks"
                 }
               >
                 Create new Project

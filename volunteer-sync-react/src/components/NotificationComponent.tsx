@@ -54,15 +54,15 @@ const NotificationComponent: React.FC<NotificationProps> = ({
     if (notification.icon) return notification.icon;
 
     switch (notification.type) {
-      case "success":
+      case "Success":
         return "/assets/badge.svg";
-      case "warning":
+      case "Warning":
         return "/assets/Calendar.svg";
-      case "error":
+      case "Error":
         return "/assets/notification icon.svg";
-      case "project":
+      case "TaskUpdate":
         return "/assets/notification icon.svg";
-      case "application":
+      case "RegistrationUpdate":
         return "/assets/profile.svg";
       default:
         return "/assets/notification icon.svg";

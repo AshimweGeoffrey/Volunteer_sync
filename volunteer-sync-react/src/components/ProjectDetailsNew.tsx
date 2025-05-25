@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { mockProjects } from "../data/mockData";
+import tasksService, { Task } from "../services/tasksService";
+import { DataTransformer } from "../utils/dataTransformer";
+import { VolunteerProject } from "../types";
 import { useUser } from "../contexts/UserContext";
 import Header from "./Header";
 
@@ -11,22 +13,183 @@ interface ProjectDetailsProps {
 const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
   const { id } = useParams<{ id: string }>();
   const { addNotification } = useUser();
+  const [project, setProject] = useState<VolunteerProject | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isApplied, setIsApplied] = useState(false);
+  const [applying, setApplying] = useState(false);
 
-  const project = mockProjects.find((p) => p.id === id) || mockProjects[0];
+  useEffect(() => {
+    const loadProject = async () => {
+      if (!id) {
+        setError("Project ID not found");
+        setLoading(false);
+        return;
+      }
 
-  const handleApply = () => {
-    setIsApplied(true);
-    // Add notification when user applies
-    addNotification({
-      title: "Application Submitted",
-      message: `Your application for "${project.title}" has been submitted successfully.`,
-      type: "success",
-      isRead: false,
-      projectId: project.id,
-      actionUrl: `/projects/${project.id}`,
-    });
+      try {
+        setLoading(true);
+        setError(null);
+        const taskData: Task = await tasksService.getTask(id);
+        const transformedProject: VolunteerProject =
+          DataTransformer.transformTask(taskData);
+        setProject(transformedProject);
+      } catch (err) {
+        console.error("Failed to load project:", err);
+        setError("Failed to load project details. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProject();
+  }, [id]);
+
+  const handleApply = async () => {
+    if (!project || applying) return;
+
+    try {
+      setApplying(true);
+      await tasksService.registerForTask(project.id, {
+        applicationMessage: "I would like to volunteer for this project.",
+      });
+      setIsApplied(true);
+
+      // Add notification when user applies
+      addNotification({
+        title: "Application Submitted",
+        message: `Your application for "${project.title}" has been submitted successfully.`,
+        type: "Success",
+        isRead: false,
+        projectId: project.id,
+        actionUrl: `/projects/${project.id}`,
+      });
+    } catch (err) {
+      console.error("Failed to apply for project:", err);
+      addNotification({
+        title: "Application Failed",
+        message: "Failed to submit your application. Please try again.",
+        type: "Error",
+        isRead: false,
+      });
+    } finally {
+      setApplying(false);
+    }
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              border: "3px solid var(--magic-mint-200)",
+              borderTop: "3px solid var(--magic-mint-600)",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+              margin: "0 auto 16px",
+            }}
+          />
+          <p style={{ color: "var(--primary-200)", fontSize: "16px" }}>
+            Loading project details...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{ textAlign: "center", maxWidth: "400px", padding: "20px" }}
+        >
+          <h2 style={{ color: "var(--primary-200)", marginBottom: "16px" }}>
+            Error Loading Project
+          </h2>
+          <p style={{ color: "#666", marginBottom: "24px" }}>{error}</p>
+          <Link
+            to="/projects"
+            style={{
+              display: "inline-block",
+              background: "var(--magic-mint-600)",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
+          >
+            Back to Projects
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Project not found
+  if (!project) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{ textAlign: "center", maxWidth: "400px", padding: "20px" }}
+        >
+          <h2 style={{ color: "var(--primary-200)", marginBottom: "16px" }}>
+            Project Not Found
+          </h2>
+          <p style={{ color: "#666", marginBottom: "24px" }}>
+            The project you're looking for doesn't exist or may have been
+            removed.
+          </p>
+          <Link
+            to="/projects"
+            style={{
+              display: "inline-block",
+              background: "var(--magic-mint-600)",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              fontWeight: "500",
+            }}
+          >
+            Back to Projects
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -73,11 +236,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
             </h4>
             <button
               onClick={handleApply}
-              disabled={isApplied}
+              disabled={isApplied || applying}
               style={{
                 width: "100%",
                 background: isApplied
                   ? "var(--magic-mint-200)"
+                  : applying
+                  ? "var(--magic-mint-400)"
                   : "var(--magic-mint-600)",
                 color: "white",
                 border: "none",
@@ -85,11 +250,27 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                 borderRadius: "8px",
                 fontSize: "16px",
                 fontWeight: "500",
-                cursor: isApplied ? "not-allowed" : "pointer",
+                cursor: isApplied || applying ? "not-allowed" : "pointer",
                 transition: "background-color 0.2s",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
-              {isApplied ? "Applied" : "Apply"}
+              {applying && (
+                <div
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                    border: "2px solid transparent",
+                    borderTop: "2px solid white",
+                    borderRadius: "50%",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+              )}
+              {isApplied ? "Applied" : applying ? "Applying..." : "Apply"}
             </button>
           </div>
         </div>
@@ -324,10 +505,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                     style={{
                       padding: "8px 12px",
                       fontSize: "12px",
-                      background: project.duration.includes("week")
+                      background: project.duration?.includes("week")
                         ? "transparent"
                         : "var(--magic-mint-500)",
-                      color: project.duration.includes("week")
+                      color: project.duration?.includes("week")
                         ? "var(--primary-200)"
                         : "white",
                     }}
@@ -338,10 +519,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                     style={{
                       padding: "8px 12px",
                       fontSize: "12px",
-                      background: !project.duration.includes("week")
+                      background: !project.duration?.includes("week")
                         ? "var(--magic-mint-500)"
                         : "transparent",
-                      color: !project.duration.includes("week")
+                      color: !project.duration?.includes("week")
                         ? "white"
                         : "var(--primary-200)",
                     }}
@@ -451,7 +632,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                   cursor: "pointer",
                 }}
               >
-                {project.location}
+                {typeof project.location === "string"
+                  ? project.location
+                  : `${project.location.city}, ${project.location.state}`}
               </button>
             </div>
 

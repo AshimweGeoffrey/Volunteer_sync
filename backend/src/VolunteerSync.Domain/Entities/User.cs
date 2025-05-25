@@ -21,7 +21,7 @@ public class User : BaseEntity
     [BsonElement("passwordHash")]
     public string PasswordHash { get; set; } = string.Empty;
     
-    [BsonElement("phoneNumber")]
+    [BsonElement("phone")]
     public string PhoneNumber { get; set; } = string.Empty;
     
     [BsonElement("role")]
@@ -46,6 +46,33 @@ public class User : BaseEntity
     
     [BsonElement("availability")]
     public List<string> Availability { get; set; } = new();
+    
+    [BsonElement("bio")]
+    public string? Bio { get; set; }
+    
+    [BsonElement("age")]
+    public int? Age { get; set; }
+    
+    [BsonElement("gender")]
+    public string? Gender { get; set; }
+    
+    [BsonElement("location")]
+    public string? Location { get; set; }
+    
+    [BsonElement("interests")]
+    public List<string> Interests { get; set; } = new();
+    
+    [BsonElement("completedProjects")]
+    public int CompletedProjects { get; set; } = 0;
+    
+    [BsonElement("rating")]
+    public double Rating { get; set; } = 0.0;
+    
+    [BsonElement("badges")]
+    public List<Badge> Badges { get; set; } = new();
+    
+    [BsonElement("preferences")]
+    public Dictionary<string, object> Preferences { get; set; } = new();
     
     [BsonElement("lastLoginAt")]
     public DateTime? LastLoginAt { get; set; }

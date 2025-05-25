@@ -8872,11 +8872,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/micro/Volunteer_sync/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
+      "projectUniqueName": "/home/micro/Volunteer_sync/backend/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
       "projectName": "VolunteerSync.Tests",
-      "projectPath": "/home/micro/Volunteer_sync/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
+      "projectPath": "/home/micro/Volunteer_sync/backend/tests/VolunteerSync.Tests/VolunteerSync.Tests.csproj",
       "packagesPath": "/home/micro/.nuget/packages/",
-      "outputPath": "/home/micro/Volunteer_sync/tests/VolunteerSync.Tests/obj/",
+      "outputPath": "/home/micro/Volunteer_sync/backend/tests/VolunteerSync.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/micro/.nuget/NuGet/NuGet.Config"
@@ -8891,17 +8891,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/home/micro/Volunteer_sync/src/VolunteerSync.API/VolunteerSync.API.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.API/VolunteerSync.API.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.API/VolunteerSync.API.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.API/VolunteerSync.API.csproj"
             },
-            "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Application/VolunteerSync.Application.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Application/VolunteerSync.Application.csproj"
             },
-            "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Domain/VolunteerSync.Domain.csproj"
             },
-            "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
-              "projectPath": "/home/micro/Volunteer_sync/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
+            "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj": {
+              "projectPath": "/home/micro/Volunteer_sync/backend/src/VolunteerSync.Infrastructure/VolunteerSync.Infrastructure.csproj"
             }
           }
         }

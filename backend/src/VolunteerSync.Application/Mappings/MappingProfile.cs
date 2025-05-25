@@ -1,5 +1,6 @@
 using AutoMapper;
 using VolunteerSync.Application.DTOs.Auth;
+using VolunteerSync.Application.DTOs.Notifications;
 using VolunteerSync.Application.DTOs.Organizations;
 using VolunteerSync.Application.DTOs.Registrations;
 using VolunteerSync.Application.DTOs.Tasks;
@@ -30,5 +31,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.TaskId, opt => opt.MapFrom(src => src.VolunteerTaskId));
         CreateMap<CreateTaskRegistrationDto, TaskRegistration>()
             .ForMember(dest => dest.VolunteerTaskId, opt => opt.MapFrom(src => src.TaskId));
+
+        // Notification mappings
+        CreateMap<Notification, NotificationDto>();
+        CreateMap<CreateNotificationDto, Notification>();
     }
 }

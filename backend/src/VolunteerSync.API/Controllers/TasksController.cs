@@ -4,6 +4,7 @@ using System.Security.Claims;
 using VolunteerSync.Application.DTOs.Tasks;
 using VolunteerSync.Application.Services.Interfaces;
 using VolunteerSync.Domain.Enums;
+using TaskStatus = VolunteerSync.Domain.Enums.TaskStatus;
 
 namespace VolunteerSync.API.Controllers;
 
@@ -19,9 +20,15 @@ public class TasksController : BaseController
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAllTasks([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAllTasks(
+        [FromQuery] int page = 1, 
+        [FromQuery] int pageSize = 10,
+        [FromQuery] TaskStatus? status = null,
+        [FromQuery] TaskCategory? category = null,
+        [FromQuery] string? search = null,
+        [FromQuery] string? organizationId = null)
     {
-        var result = await _taskService.GetAllAsync(page, pageSize);
+        var result = await _taskService.GetAllAsync(page, pageSize, status, category, search, organizationId);
         return CreateResponse(result);
     }
 

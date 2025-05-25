@@ -11,6 +11,11 @@ public class CreateUserDto
     public string PhoneNumber { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
     public string? OrganizationId { get; set; }
+    public string? Bio { get; set; }
+    public int? Age { get; set; }
+    public string? Gender { get; set; }
+    public string? Location { get; set; }
     public List<string> Skills { get; set; } = new();
+    public List<string> Interests { get; set; } = new();
     public List<string> Availability { get; set; } = new();
 }

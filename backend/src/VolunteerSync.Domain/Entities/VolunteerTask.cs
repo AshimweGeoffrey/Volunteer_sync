@@ -42,7 +42,7 @@ public class VolunteerTask : BaseEntity
     [BsonElement("requirements")]
     public List<string> Requirements { get; set; } = new();
     
-    [BsonElement("skills")]
+    [BsonElement("requiredSkills")]
     public List<string> Skills { get; set; } = new();
     
     [BsonElement("organizationId")]
@@ -61,6 +61,9 @@ public class VolunteerTask : BaseEntity
     
     [BsonElement("isUrgent")]
     public bool IsUrgent { get; set; } = false;
+    
+    [BsonElement("isActive")]
+    public bool IsActive { get; set; } = true;
     
     [BsonElement("applicationDeadline")]
     public DateTime? ApplicationDeadline { get; set; }

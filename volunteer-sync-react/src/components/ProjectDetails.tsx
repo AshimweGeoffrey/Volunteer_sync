@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { mockProjects } from "../data/mockData";
+import tasksService from "../services/tasksService";
+import { DataTransformer } from "../utils/dataTransformer";
+import { VolunteerProject } from "../types";
 import Header from "./Header";
 
 interface ProjectDetailsProps {
@@ -9,16 +11,55 @@ interface ProjectDetailsProps {
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
   const { id } = useParams<{ id: string }>();
+  const [project, setProject] = useState<VolunteerProject | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isApplied, setIsApplied] = useState(false);
+  const [applying, setApplying] = useState(false);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
 
-  const project = mockProjects.find((p) => p.id === id) || mockProjects[0];
+  useEffect(() => {
+    const loadProject = async () => {
+      if (!id) {
+        setError("No project ID provided");
+        setLoading(false);
+        return;
+      }
 
-  const handleApply = () => {
-    setIsApplied(true);
-    // Here you would typically make an API call to register the volunteer
+      try {
+        setLoading(true);
+        setError(null);
+        const taskData = await tasksService.getTask(id);
+        const transformedProject = DataTransformer.transformTask(taskData);
+        setProject(transformedProject);
+      } catch (err) {
+        console.error("Error loading project:", err);
+        setError(err instanceof Error ? err.message : "Failed to load project");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProject();
+  }, [id]);
+
+  const handleApply = async () => {
+    if (!project || !id) return;
+
+    try {
+      setApplying(true);
+      await tasksService.registerForTask(id, {
+        applicationMessage: "I would like to volunteer for this project.",
+      });
+      setIsApplied(true);
+    } catch (err) {
+      console.error("Error applying for project:", err);
+      alert(err instanceof Error ? err.message : "Failed to apply for project");
+    } finally {
+      setApplying(false);
+    }
   };
 
   const openMapModal = () => {
@@ -33,7 +74,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
 
   // Initialize Google Map when modal opens
   useEffect(() => {
-    if (isMapModalOpen && mapRef.current && !mapInstanceRef.current) {
+    if (
+      isMapModalOpen &&
+      mapRef.current &&
+      !mapInstanceRef.current &&
+      project
+    ) {
       const projectLocation = project.coordinates || {
         lat: -1.9706,
         lng: 30.1044,
@@ -120,6 +166,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
   }, [isMapModalOpen]);
 
   const openDirections = () => {
+    if (!project) return;
     const projectLocation = project.coordinates || {
       lat: -1.9706,
       lng: 30.1044,
@@ -128,6 +175,119 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
     window.open(url, "_blank");
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div
+        style={{
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          minHeight: "100vh",
+        }}
+      >
+        <Header />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            fontSize: "18px",
+            color: "#666",
+          }}
+        >
+          Loading project details...
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div
+        style={{
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          minHeight: "100vh",
+        }}
+      >
+        <Header />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            fontSize: "18px",
+            color: "#e74c3c",
+            textAlign: "center",
+            gap: "20px",
+          }}
+        >
+          <div>Error: {error}</div>
+          <Link
+            to="/projects"
+            style={{
+              padding: "12px 24px",
+              backgroundColor: "#1dac7a",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+            }}
+          >
+            Back to Projects
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Project not found
+  if (!project) {
+    return (
+      <div
+        style={{
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          minHeight: "100vh",
+        }}
+      >
+        <Header />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            fontSize: "18px",
+            color: "#666",
+            textAlign: "center",
+            gap: "20px",
+          }}
+        >
+          <div>Project not found</div>
+          <Link
+            to="/projects"
+            style={{
+              padding: "12px 24px",
+              backgroundColor: "#1dac7a",
+              color: "white",
+              textDecoration: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+            }}
+          >
+            Back to Projects
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -175,11 +335,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
             </h4>
             <button
               onClick={handleApply}
-              disabled={isApplied}
+              disabled={isApplied || applying}
               style={{
                 width: "100%",
                 background: isApplied
                   ? "var(--magic-mint-200)"
+                  : applying
+                  ? "var(--magic-mint-400)"
                   : "var(--magic-mint-600)",
                 color: "white",
                 border: "none",
@@ -187,11 +349,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                 borderRadius: "8px",
                 fontSize: "16px",
                 fontWeight: "500",
-                cursor: isApplied ? "not-allowed" : "pointer",
+                cursor: isApplied || applying ? "not-allowed" : "pointer",
                 transition: "background-color 0.2s",
               }}
             >
-              {isApplied ? "Applied" : "Apply"}
+              {isApplied ? "Applied" : applying ? "Applying..." : "Apply"}
             </button>
           </div>
         </div>
@@ -429,13 +591,13 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                       padding: "8px 16px",
                       fontSize: "12px",
                       background:
-                        parseInt(project.duration) >= 6 ||
-                        project.duration.includes("year")
+                        (project.duration && parseInt(project.duration) >= 6) ||
+                        (project.duration && project.duration.includes("year"))
                           ? "var(--magic-mint-500)"
                           : "transparent",
                       color:
-                        parseInt(project.duration) >= 6 ||
-                        project.duration.includes("year")
+                        (project.duration && parseInt(project.duration) >= 6) ||
+                        (project.duration && project.duration.includes("year"))
                           ? "white"
                           : "var(--primary-200)",
                       whiteSpace: "nowrap",
@@ -448,12 +610,16 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                       padding: "8px 16px",
                       fontSize: "12px",
                       background:
+                        project.duration &&
                         parseInt(project.duration) < 6 &&
+                        project.duration &&
                         !project.duration.includes("year")
                           ? "var(--magic-mint-500)"
                           : "transparent",
                       color:
+                        project.duration &&
                         parseInt(project.duration) < 6 &&
+                        project.duration &&
                         !project.duration.includes("year")
                           ? "white"
                           : "var(--primary-200)",
@@ -565,7 +731,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                   cursor: "pointer",
                 }}
               >
-                {project.location}
+                {typeof project.location === "string"
+                  ? project.location
+                  : `${project.location.city}, ${project.location.state}`}
               </button>
             </div>
 
@@ -762,7 +930,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = () => {
                           fontSize: "16px",
                         }}
                       >
-                        {project.location}
+                        {typeof project.location === "string"
+                          ? project.location
+                          : `${project.location.city}, ${project.location.state}`}
                       </h4>
                       <p
                         style={{

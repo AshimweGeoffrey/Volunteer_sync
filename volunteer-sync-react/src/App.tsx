@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
 import ErrorBoundary from "./components/ErrorBoundary";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./components/Home";
 import OnmapList from "./components/OnmapList";
 import ProjectList from "./components/ProjectList";
@@ -27,11 +28,46 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/onmap" element={<OnmapList />} />
-              <Route path="/projects" element={<ProjectList />} />
-              <Route path="/project/:id" element={<ProjectDetails />} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route
+                path="/onmap"
+                element={
+                  <ProtectedRoute>
+                    <OnmapList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects"
+                element={
+                  <ProtectedRoute>
+                    <ProjectList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/project/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProjectDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile/edit"
+                element={
+                  <ProtectedRoute>
+                    <EditProfile />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

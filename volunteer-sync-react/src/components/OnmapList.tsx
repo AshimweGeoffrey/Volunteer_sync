@@ -1,111 +1,281 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { mockProjects } from "../data/mockData";
+import tasksService, { Task } from "../services/tasksService";
+import { DataTransformer } from "../utils/dataTransformer";
 import { VolunteerProject } from "../types";
+import { loadGoogleMapsAPI } from "../utils/googleMapsLoader";
 import Header from "./Header";
-import { useUser } from "../contexts/UserContext";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyAk2NlJaP3zmlm2csl0xDrf_-WeRyYpgwU";
+// Helper functions for status styling
+const getStatusColor = (status?: string) => {
+  switch (status) {
+    case "active":
+      return "var(--magic-mint-100)";
+    case "upcoming":
+      return "#e3f2fd";
+    case "completed":
+      return "#f3e5f5";
+    default:
+      return "#f0f0f0";
+  }
+};
 
-// Map Component
+const getStatusTextColor = (status?: string) => {
+  switch (status) {
+    case "active":
+      return "var(--magic-mint-700)";
+    case "upcoming":
+      return "#1976d2";
+    case "completed":
+      return "#7b1fa2";
+    default:
+      return "#666";
+  }
+};
+
+const getStatusLabel = (status?: string) => {
+  switch (status) {
+    case "active":
+      return "Ongoing";
+    case "upcoming":
+      return "Upcoming";
+    case "completed":
+      return "Completed";
+    default:
+      return "Unknown";
+  }
+};
+
+// Map Component with async loading
 const MapComponent: React.FC<{ projects: VolunteerProject[] }> = ({
   projects,
 }) => {
   const mapRef = React.useRef<HTMLDivElement>(null);
   const [map, setMap] = React.useState<google.maps.Map>();
+  const [isMapLoaded, setIsMapLoaded] = React.useState(false);
+  const [mapError, setMapError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (mapRef.current && !map) {
-      const newMap = new window.google.maps.Map(mapRef.current, {
-        center: { lat: -1.9706, lng: 30.1044 }, // Kigali center
-        zoom: 12,
-      });
-      setMap(newMap);
-    }
+    const initializeMap = async () => {
+      try {
+        await loadGoogleMapsAPI({
+          libraries: ["places"],
+        });
+
+        if (mapRef.current && !map) {
+          const newMap = new window.google.maps.Map(mapRef.current, {
+            center: { lat: -1.9706, lng: 30.1044 }, // Kigali center
+            zoom: 12,
+          });
+          setMap(newMap);
+          setIsMapLoaded(true);
+        }
+      } catch (error) {
+        console.error("Failed to load Google Maps:", error);
+        setMapError("Failed to load map");
+      }
+    };
+
+    initializeMap();
   }, [mapRef, map]);
 
   React.useEffect(() => {
-    if (map) {
-      // Clear existing markers
+    if (map && isMapLoaded) {
+      // Clear existing markers and add new ones
       projects.forEach((project) => {
-        const marker = new window.google.maps.Marker({
-          position: project.coordinates,
-          map: map,
-          title: project.title,
-        });
+        if (project.coordinates) {
+          const marker = new window.google.maps.Marker({
+            position: project.coordinates,
+            map: map,
+            title: project.title,
+          });
 
-        const infoWindow = new window.google.maps.InfoWindow({
-          content: `
-            <div style="padding: 10px; max-width: 300px;">
-              <h3 style="margin: 0 0 10px 0; color: #333;">${project.title}</h3>
-              <p style="margin: 5px 0; color: #666;"><strong>Location:</strong> ${
-                project.location
-              }</p>
-              <p style="margin: 5px 0; color: #666;"><strong>Volunteers:</strong> ${
-                project.volunteersRegistered
-              }/${project.volunteersNeeded}</p>
-              <p style="margin: 5px 0; color: #666;"><strong>Duration:</strong> ${
-                project.duration
-              }</p>
-              <div style="margin-top: 10px;">
-                ${project.categories
-                  .map(
-                    (cat) =>
-                      `<span style="background: var(--magic-mint-400); color: white; padding: 2px 6px; border-radius: 3px; font-size: 12px; margin-right: 5px;">${cat}</span>`
-                  )
-                  .join("")}
+          const infoWindow = new window.google.maps.InfoWindow({
+            content: `
+              <div style="padding: 10px; max-width: 300px;">
+                <h3 style="margin: 0 0 10px 0; color: #333;">${project.title}</h3>
+                <p style="margin: 5px 0; color: #666;"><strong>Location:</strong> ${project.location}</p>
+                <p style="margin: 5px 0; color: #666;"><strong>Volunteers:</strong> ${project.volunteersRegistered}/${project.volunteersNeeded}</p>
+                <p style="margin: 5px 0; color: #666;"><strong>Duration:</strong> ${project.duration}</p>
+                <div style="margin-top: 10px;">
+                  <a href="/project-details/${project.id}" style="background: var(--magic-mint-600); color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: 500;">View Details</a>
+                </div>
               </div>
-            </div>
-          `,
-        });
+            `,
+          });
 
-        marker.addListener("click", () => {
-          infoWindow.open(map, marker);
-        });
+          marker.addListener("click", () => {
+            infoWindow.open(map, marker);
+          });
+        }
       });
     }
-  }, [map, projects]);
+  }, [map, projects, isMapLoaded]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: "500px" }} />;
+  if (mapError) {
+    return (
+      <div
+        style={{
+          height: "400px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f5f5f5",
+          color: "#666",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <p>Unable to load map</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "var(--magic-mint-600)",
+              color: "white",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return <div ref={mapRef} style={{ width: "100%", height: "400px" }} />;
 };
 
 const OnmapList: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const { addNotification } = useUser();
+  const [projects, setProjects] = useState<VolunteerProject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredProjects = useMemo(() => {
-    return mockProjects.filter((project) => {
-      const matchesSearch =
-        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.categories.some((cat) =>
-          cat.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await tasksService.getTasks();
+        const transformedProjects = response.items.map((task: Task) =>
+          DataTransformer.transformTask(task)
         );
 
-      // Only show active and upcoming projects
-      const isAvailable =
-        project.status === "active" || project.status === "upcoming";
-      return matchesSearch && isAvailable;
-    });
-  }, [searchTerm]);
+        setProjects(transformedProjects);
+      } catch (err) {
+        console.error("Error loading projects:", err);
+        setError("Failed to load projects. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleJoinProject = (projectId: string) => {
-    addNotification({
-      title: "Application Submitted",
-      message: "Your application has been submitted successfully!",
-      type: "success",
-      isRead: false,
-      projectId: projectId,
-      actionUrl: `/project/${projectId}`,
-    });
-  };
+    loadProjects();
+  }, []);
 
-  const render = (status: Status): React.ReactElement => {
-    if (status === Status.LOADING) return <div>Loading map...</div>;
-    if (status === Status.FAILURE) return <div>Error loading map</div>;
-    return <div>Map loaded successfully</div>;
-  };
+  const filteredProjects = useMemo(() => {
+    if (!searchTerm) return projects;
+
+    return projects.filter((project) => {
+      const titleMatch = project.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const descMatch = project.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+
+      // Handle location search - check both legacy string format and new object format
+      let locationMatch = false;
+      if (project.district) {
+        locationMatch = project.district
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      } else if (project.location && typeof project.location === "object") {
+        const locationStr =
+          `${project.location.city} ${project.location.state}`.toLowerCase();
+        locationMatch = locationStr.includes(searchTerm.toLowerCase());
+      }
+
+      return titleMatch || descMatch || locationMatch;
+    });
+  }, [projects, searchTerm]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{ textAlign: "center", maxWidth: "400px", padding: "20px" }}
+        >
+          <div
+            style={{
+              width: "60px",
+              height: "60px",
+              border: "4px solid var(--magic-mint-200)",
+              borderTop: "4px solid var(--magic-mint-600)",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite",
+              margin: "0 auto 20px",
+            }}
+          />
+          <p style={{ color: "var(--primary-200)", fontSize: "16px" }}>
+            Loading projects...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          fontFamily: "Inter, sans-serif",
+          background: "var(--magic-mint-50)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{ textAlign: "center", maxWidth: "400px", padding: "20px" }}
+        >
+          <h2 style={{ color: "var(--primary-200)", marginBottom: "16px" }}>
+            Error Loading Projects
+          </h2>
+          <p style={{ color: "#666", marginBottom: "24px" }}>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "var(--magic-mint-600)",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "500",
+              cursor: "pointer",
+            }}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -115,145 +285,149 @@ const OnmapList: React.FC = () => {
         background: "var(--magic-mint-50)",
       }}
     >
-      <Header
-        showSearch={true}
-        searchPlaceholder="Search projects..."
-        onSearchChange={setSearchTerm}
-        searchValue={searchTerm}
-      />
+      <Header />
 
-      <div style={{ minHeight: "calc(100vh - 80px)" }}>
-        {/* Main Content */}
-        <div style={{ padding: "30px" }}>
-          <div
+      <div style={{ padding: "30px 120px" }}>
+        {/* Header */}
+        <div style={{ marginBottom: "30px" }}>
+          <h1
             style={{
-              marginBottom: "30px",
+              fontSize: "32px",
+              fontWeight: "700",
+              margin: "0 0 10px 0",
+              color: "var(--primary-200)",
             }}
           >
-            <h1
+            Projects Map
+          </h1>
+          <p
+            style={{
+              fontSize: "16px",
+              color: "var(--magic-mint-600)",
+              margin: "0 0 20px 0",
+            }}
+          >
+            Discover volunteer opportunities near you
+          </p>
+
+          {/* Search */}
+          <div style={{ maxWidth: "400px" }}>
+            <input
+              type="text"
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               style={{
-                margin: 0,
-                fontSize: "32px",
-                color: "var(--primary-200)",
+                width: "100%",
+                padding: "12px 16px",
+                border: "1px solid var(--magic-mint-200)",
+                borderRadius: "8px",
+                fontSize: "16px",
+                outline: "none",
               }}
-            >
-              Volunteer Projects in Kigali
-            </h1>
+            />
           </div>
+        </div>
 
-          {/* Map Section */}
-          <div
+        {/* Map */}
+        <div style={{ marginBottom: "40px" }}>
+          <MapComponent projects={filteredProjects} />
+        </div>
+
+        {/* Projects List */}
+        <div>
+          <h2
             style={{
-              marginBottom: "30px",
-              borderRadius: "8px",
-              overflow: "hidden",
-              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+              fontSize: "24px",
+              fontWeight: "600",
+              margin: "0 0 20px 0",
+              color: "var(--primary-200)",
             }}
           >
-            <Wrapper apiKey={GOOGLE_MAPS_API_KEY} render={render}>
-              <MapComponent projects={filteredProjects} />
-            </Wrapper>
-          </div>
+            Available Projects ({filteredProjects.length})
+          </h2>
 
-          {/* Projects Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-              gap: "20px",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "24px",
             }}
           >
             {filteredProjects.map((project) => (
               <Link
                 key={project.id}
                 to={`/project/${project.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
               >
                 <div
                   style={{
                     background: "white",
                     borderRadius: "12px",
-                    padding: "20px",
+                    padding: "24px",
                     boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                    border: "1px solid #f0f0f0",
-                    transition: "transform 0.2s, box-shadow 0.2s",
+                    border: "1px solid var(--magic-mint-200)",
+                    transition: "all 0.3s ease",
                     cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-2px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 20px rgba(0,0,0,0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 4px 6px rgba(0,0,0,0.1)";
+                    height: "100%",
                   }}
                 >
+                  <h3
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "600",
+                      color: "var(--primary-200)",
+                      marginBottom: "10px",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+
+                  <p
+                    style={{
+                      color: "#666",
+                      fontSize: "14px",
+                      lineHeight: "1.5",
+                      marginBottom: "15px",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {project.description}
+                  </p>
+
                   <div
                     style={{
                       display: "flex",
-                      alignItems: "flex-start",
-                      gap: "15px",
-                      marginBottom: "15px",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginBottom: "10px",
                     }}
                   >
-                    <img
-                      src="/assets/pinish.svg"
-                      alt="project"
-                      style={{ width: "40px", flexShrink: 0 }}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <h3
-                        style={{
-                          margin: "0 0 8px 0",
-                          fontSize: "18px",
-                          fontWeight: "600",
-                          color: "#333",
-                        }}
-                      >
-                        {project.title}
-                      </h3>
-                      <p
-                        style={{
-                          margin: "0 0 8px 0",
-                          color: "#666",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {project.location}
-                      </p>
-                      <p
-                        style={{
-                          margin: "0 0 15px 0",
-                          color: "#555",
-                          lineHeight: "1.4",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {project.description.substring(0, 120)}...
-                      </p>
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: "15px" }}>
-                    {project.categories.map((category, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          display: "inline-block",
-                          background: "var(--magic-mint-400)",
-                          color: "white",
-                          padding: "4px 8px",
-                          borderRadius: "4px",
-                          fontSize: "12px",
-                          marginRight: "6px",
-                          marginBottom: "6px",
-                        }}
-                      >
-                        {category}
-                      </span>
-                    ))}
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        color: "var(--magic-mint-600)",
+                      }}
+                    >
+                      📍
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "14px",
+                        color: "#666",
+                      }}
+                    >
+                      {typeof project.location === "string"
+                        ? project.location
+                        : `${project.location?.city}, ${project.location?.state}`}
+                    </span>
                   </div>
 
                   <div
@@ -261,58 +435,37 @@ const OnmapList: React.FC = () => {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      paddingTop: "15px",
-                      borderTop: "1px solid #f0f0f0",
                     }}
                   >
                     <span
                       style={{
-                        fontSize: "13px",
-                        color: "#666",
-                        background: "#f8f9fa",
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                      }}
-                    >
-                      {project.duration} • {project.startDate}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "13px",
+                        fontSize: "14px",
                         color: "var(--magic-mint-600)",
-                        fontWeight: "600",
                       }}
                     >
                       {project.volunteersRegistered}/{project.volunteersNeeded}{" "}
                       volunteers
                     </span>
-                  </div>
 
-                  <div
-                    style={{
-                      marginTop: "10px",
-                      padding: "8px",
-                      background:
-                        project.status === "active"
-                          ? "var(--magic-mint-100)"
-                          : "#f0f0f0",
-                      borderRadius: "4px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <span
+                    <div
                       style={{
-                        fontSize: "12px",
-                        color:
-                          project.status === "active"
-                            ? "var(--magic-mint-700)"
-                            : "#666",
-                        fontWeight: "500",
-                        textTransform: "uppercase",
+                        padding: "4px 8px",
+                        background: getStatusColor(project.status),
+                        borderRadius: "4px",
+                        textAlign: "center",
                       }}
                     >
-                      {project.status}
-                    </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: getStatusTextColor(project.status),
+                          fontWeight: "500",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {getStatusLabel(project.status)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -328,7 +481,7 @@ const OnmapList: React.FC = () => {
               }}
             >
               <h3>No projects found</h3>
-              <p>Try adjusting your filters or search terms.</p>
+              <p>Try adjusting your search terms.</p>
             </div>
           )}
         </div>

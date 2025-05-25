@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IVolunteerTaskRepository, VolunteerTaskRepository>();
         services.AddScoped<ITaskRegistrationRepository, TaskRegistrationRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
         
         // Services
         services.AddScoped<IAuthService, AuthService>();
@@ -40,6 +41,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IOrganizationService, OrganizationService>();
         services.AddScoped<IVolunteerTaskService, VolunteerTaskService>();
         services.AddScoped<ITaskRegistrationService, TaskRegistrationService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IStatsService, StatsService>();
         
         // Infrastructure services
         services.AddScoped<PasswordHashingService>();
