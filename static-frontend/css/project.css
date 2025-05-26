@@ -295,74 +295,144 @@
 }
 @layer dummy {
   .popup {
-    max-width: 400px;
-    width: 40%;
-    background: #fff;
-    border: 0px solid var(--primary-200);
-    border-radius: 4px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
-    padding: 12px;
+    display: none;
     position: fixed;
-    height: 100%;
-    bottom: 0%;
-    left: 35%;
+    z-index: 1000;
+    left: 0;
+    top: 0;
     width: 100%;
-    z-index: 100;
-    /** to used to instblish the popup */
-    body {
-      filter: blur(4px);
-      transition: filter 0.3s ease;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .popup-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideIn 0.4s ease-out;
+  }
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(
+      135deg,
+      var(--magic-mint-100) 0%,
+      var(--magic-mint-200) 100%
+    );
+    border-bottom: 1px solid rgba(29, 172, 122, 0.2);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .close-btn {
+    color: var(--magic-mint-700);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .close-btn:hover {
+    color: var(--magic-mint-900);
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
   .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 15px;
+    padding: 25px;
   }
   .form-field {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   .full-width {
     grid-column: 1/3;
   }
   .form-title {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: #000;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--primary-200);
   }
   .section-title {
-    font-size: 14px;
-    font-weight: 500;
-    margin: 12px 0 6px;
-    color: #000;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 15px 0 8px 0;
+    color: var(--primary-200);
+    border-bottom: 2px solid var(--magic-mint-300);
+    padding-bottom: 5px;
   }
   .form-label {
     display: block;
-    font-size: 12px;
-    margin-bottom: 2px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
     font-weight: 500;
+    color: var(--magic-mint-700);
   }
   .form-sublabel {
-    font-size: 10px;
-    margin-bottom: 2px;
-    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    color: var(--magic-mint-600);
+    font-style: italic;
   }
   .skills-row {
     display: flex;
-    gap: 8px;
-    margin-bottom: 6px;
+    gap: 10px;
+    margin-bottom: 10px;
   }
   .skill-weight {
-    width: 50px;
+    width: 60px;
   }
   .skill-name {
     flex-grow: 1;
   }
   .buttons {
     display: flex;
-    gap: 6px;
-    margin-top: 12px;
+    gap: 12px;
+    margin-top: 20px;
     justify-content: flex-end;
   }
 }
@@ -370,32 +440,93 @@
   .popup input,
   .popup textarea {
     width: 100%;
-    padding: 5px 8px;
-    font-size: 13px;
-    border: 1px solid var(--primary-200);
-    border-radius: 3px;
-    background: var(--magic-mint-50);
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    border: 2px solid rgba(29, 172, 122, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
+
+  .popup input:focus,
+  .popup textarea:focus {
+    outline: none;
+    border-color: var(--magic-mint-500);
+    box-shadow: 0 0 0 3px rgba(29, 172, 122, 0.1);
+  }
+
   .popup textarea {
-    min-height: 60px;
+    min-height: 80px;
     resize: vertical;
+    font-family: inherit;
   }
+
   .popup .button-primary,
   .popup .button-secondary {
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 3px;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
     cursor: pointer;
-  }
-  .popup .button-primary {
-    background: var(--magic-mint-600);
-    color: var(--magic-mint-50);
-    border: 1px solid #00668c;
-  }
-  .popup .button-secondary {
-    background: transparent;
-    color: var(--primary-200);
+    transition: all 0.3s ease;
     border: none;
+  }
+
+  .popup .button-primary {
+    background: linear-gradient(
+      135deg,
+      var(--magic-mint-500) 0%,
+      var(--magic-mint-600) 100%
+    );
+    color: white;
+    box-shadow: 0 4px 15px rgba(29, 172, 122, 0.3);
+  }
+
+  .popup .button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(29, 172, 122, 0.4);
+    background: linear-gradient(
+      135deg,
+      var(--magic-mint-600) 0%,
+      var(--magic-mint-700) 100%
+    );
+  }
+
+  .popup .button-secondary {
+    background: rgba(49, 61, 68, 0.1);
+    color: var(--primary-200);
+    border: 2px solid rgba(49, 61, 68, 0.2);
+  }
+
+  .popup .button-secondary:hover {
+    background: rgba(49, 61, 68, 0.2);
+    transform: translateY(-1px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .popup-content {
+      width: 95%;
+      margin: 20px;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .full-width {
+      grid-column: 1;
+    }
+
+    .buttons {
+      flex-direction: column-reverse;
+    }
+
+    .popup .button-primary,
+    .popup .button-secondary {
+      width: 100%;
+    }
   }
 }

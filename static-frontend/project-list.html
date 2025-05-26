@@ -181,60 +181,106 @@
         </div>
       </div>
     </div>
-    <div class="popup">
-      <h1 class="form-title">Add new project</h1>
-      <div class="form-grid">
-        <div class="form-field full-width">
-          <label class="form-label">Project title</label>
-          <input type="text" placeholder="Enter project title" />
+    <div class="popup" id="projectModal" style="display: none">
+      <div class="popup-content">
+        <div class="popup-header">
+          <h1 class="form-title">Add new project</h1>
+          <span class="close-btn" id="closeModal">&times;</span>
         </div>
-        <div class="form-field full-width">
-          <label class="form-label">Description</label>
-          <textarea placeholder="Enter some long form content"></textarea>
-        </div>
-        <div class="form-field full-width">
-          <label class="form-label">Goals</label>
-          <div class="form-sublabel">
-            Enter one goal in one line using bulleted lists.
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label class="form-label">Project title</label>
+            <input type="text" placeholder="Enter project title" />
           </div>
-          <textarea placeholder="Enter some long form content"></textarea>
-        </div>
-        <div class="form-field full-width">
-          <label class="form-label">Location</label>
-          <input type="text" placeholder="Enter location" />
-        </div>
-        <div class="form-field full-width"></div>
-        <div class="form-field full-width">
-          <h2 class="section-title">Time Commitment</h2>
-        </div>
-        <div class="form-field">
-          <label class="form-label">Start Date</label>
-          <input type="text" placeholder="Select start date" />
-        </div>
-        <div class="form-field">
-          <label class="form-label">End Date</label>
-          <input type="text" placeholder="Select end date" />
-        </div>
-        <div class="form-field full-width">
-          <h2 class="section-title">Skills required</h2>
-        </div>
-        <div class="form-field full-width">
-          <div class="skills-row">
-            <input type="text" class="skill-weight" placeholder="12" />
-            <input type="text" class="skill-name" placeholder="Enter skill" />
+          <div class="form-field full-width">
+            <label class="form-label">Description</label>
+            <textarea placeholder="Enter some long form content"></textarea>
           </div>
-          <div class="skills-row">
-            <input type="text" class="skill-weight" placeholder="12" />
-            <input type="text" class="skill-name" placeholder="Enter skill" />
+          <div class="form-field full-width">
+            <label class="form-label">Goals</label>
+            <div class="form-sublabel">
+              Enter one goal in one line using bulleted lists.
+            </div>
+            <textarea placeholder="Enter some long form content"></textarea>
           </div>
-        </div>
-        <div class="form-field full-width">
-          <div class="buttons">
-            <button class="button-secondary">Cancel</button>
-            <button class="button-primary">Add</button>
+          <div class="form-field full-width">
+            <label class="form-label">Location</label>
+            <input type="text" placeholder="Enter location" />
+          </div>
+          <div class="form-field full-width"></div>
+          <div class="form-field full-width">
+            <h2 class="section-title">Time Commitment</h2>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Start Date</label>
+            <input type="text" placeholder="Select start date" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">End Date</label>
+            <input type="text" placeholder="Select end date" />
+          </div>
+          <div class="form-field full-width">
+            <h2 class="section-title">Skills required</h2>
+          </div>
+          <div class="form-field full-width">
+            <div class="skills-row">
+              <input type="text" class="skill-weight" placeholder="12" />
+              <input type="text" class="skill-name" placeholder="Enter skill" />
+            </div>
+            <div class="skills-row">
+              <input type="text" class="skill-weight" placeholder="12" />
+              <input type="text" class="skill-name" placeholder="Enter skill" />
+            </div>
+          </div>
+          <div class="form-field full-width">
+            <div class="buttons">
+              <button class="button-secondary" id="cancelBtn">Cancel</button>
+              <button class="button-primary">Add</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+      // Modal functionality
+      const modal = document.getElementById("projectModal");
+      const openBtn = document.querySelector(".projects-header button");
+      const closeBtn = document.getElementById("closeModal");
+      const cancelBtn = document.getElementById("cancelBtn");
+
+      // Open modal
+      function openModal() {
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("modal-open");
+      }
+
+      // Close modal
+      function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+        document.body.classList.remove("modal-open");
+      }
+
+      // Event listeners
+      openBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+      cancelBtn.addEventListener("click", closeModal);
+
+      // Close modal when clicking outside
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with ESC key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.style.display === "flex") {
+          closeModal();
+        }
+      });
+    </script>
   </body>
 </html>
