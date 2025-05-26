@@ -16,6 +16,7 @@ import UserProfile from "./components/UserProfile";
 import EditProfile from "./components/EditProfile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import AdminDashboard from "./components/AdminDashboard";
 import "./css/style.css";
 
 function App() {
@@ -65,6 +66,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <EditProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
                   </ProtectedRoute>
                 }
               />
