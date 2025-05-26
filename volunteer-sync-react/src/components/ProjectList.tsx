@@ -77,12 +77,8 @@ const ProjectList: React.FC = () => {
   // Check if user has permission to create tasks
   const canCreateTasks = () => {
     if (!currentUser) return false;
-    const allowedRoles = [
-      "SuperAdmin",
-      "OrganizationAdmin",
-      "OrganizationMember",
-    ];
-    return allowedRoles.includes(currentUser.role);
+    const allowedRoles = ["2", "3"];
+    return allowedRoles.includes(String(currentUser.role));
   };
 
   const handleSubmit = async () => {

@@ -7,3 +7,4 @@ public enum UserRole
     OrganizationAdmin = 2,
     SystemAdmin = 3
 }
+
