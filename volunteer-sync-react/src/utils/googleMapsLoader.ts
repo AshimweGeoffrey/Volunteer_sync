@@ -1,7 +1,7 @@
 // Google Maps API Loader
 // Handles dynamic loading of Google Maps JavaScript API to avoid loading warnings
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyAk2NlJaP3zmlm2csl0xDrf_-WeRyYpgwU";
+const GOOGLE_MAPS_API_KEY = "Key";
 
 interface GoogleMapsLoaderOptions {
   apiKey?: string;
